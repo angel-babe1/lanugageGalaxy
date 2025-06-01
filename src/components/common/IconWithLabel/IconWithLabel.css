@@ -1,0 +1,21 @@
+.icon-link {
+    text-decoration: none;
+    color: black;
+}
+
+.icon-with-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon-circle{
+    border: none;
+    border-radius: 50%;
+    background: none;
+    cursor: pointer;
+}
+
+.icon-label {
+    margin-top: 16px;
+}

@@ -1,0 +1,18 @@
+.language-course-page-main {
+    max-width: 1100px;
+    margin: 2rem auto 3rem;
+    padding: 0 1rem;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: #7c789a;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-link:hover {
+    color: #3B3663;
+    text-decoration: underline;
+}

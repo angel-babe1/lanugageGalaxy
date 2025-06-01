@@ -1,0 +1,30 @@
+.studying-intro-section {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.studying-intro-title {
+    font-size: 1.8rem;
+    color: #3B3663;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    font-family: 'Cursive', sans-serif;
+    line-height: 1.3;
+}
+
+.studying-intro-text p {
+    margin: 2rem 0;
+}
+
+.studying-intro-image img {
+    max-width: 400px;
+}
+
+.studying-intro-divider {
+    border: none;
+    border-top: 1px solid #a6a6a6;
+    max-width: 1200px;
+    margin: 3rem auto 0 auto;
+}

@@ -1,0 +1,259 @@
+/* src/pages/BlogPostPage.css */
+
+/* --- Общие стили страницы --- */
+.blog-post-page-main {
+    padding: 3rem 0 5rem 0;
+    /* Больше отступ снизу */
+    background-color: #fff;
+    /* Белый фон для страницы */
+}
+
+.container.blog-post-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.back-to-blog-link {
+    display: inline-block;
+    margin-bottom: 2.5rem;
+    /* Больше отступ */
+    color: #7c789a;
+    /* Серовато-фиолетовый */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-to-blog-link:hover {
+    color: #3B3663;
+    text-decoration: underline;
+}
+
+/* --- Стили для контента статьи --- */
+.blog-post-content h1 {
+    font-size: 2.5rem;
+    /* Крупнее заголовок */
+    color: #3B3663;
+    margin-bottom: 1rem;
+    font-family: 'Your Title Font', sans-serif;
+    /* Замени на шрифт заголовка, если есть */
+    text-align: center;
+    /* Центрируем главный заголовок */
+    line-height: 1.3;
+}
+
+.post-meta {
+    font-size: 0.95rem;
+    color: #888;
+    /* Светлее */
+    margin-bottom: 1.5rem 0 3rem;
+    /* Больше отступ */
+    text-align: center;
+    /* Центрируем мету */
+    padding-bottom: 1rem;
+    /* Убираем границу */
+    /* border-bottom: 1px solid #eee; */
+}
+
+.post-meta span {
+    margin: 0 0.5rem;
+}
+
+/* --- Стили для основного текста и картинок из Markdown --- */
+.markdown-body {
+    line-height: 1.75;
+    /* Чуть больше интерлиньяж */
+    color: #444;
+    /* Основной цвет текста */
+    font-size: 1.05rem;
+    /* Слегка увеличим базовый шрифт */
+}
+
+.markdown-body>*:not(img):not(h2):not(h3) {
+    /* Добавим боковые отступы для основного текста, чтобы он был уже картинок */
+    /* Это создаст эффект обтекания */
+    margin-left: 5%;
+    margin-right: 5%;
+    /* Отступы могут быть не нужны при float */
+}
+
+
+/* Первая картинка (маски) - справа */
+.markdown-img:nth-of-type(1) {
+    /* Выбираем первую картинку */
+    float: right;
+    max-width: 35%;
+    /* Ширина картинки относительно контейнера */
+    height: auto;
+    margin-left: 2.5rem;
+    /* Отступ слева от текста */
+    margin-bottom: 1rem;
+    /* Отступ снизу */
+    margin-top: 0.5rem;
+    /* Небольшой отступ сверху */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    clear: right;
+    /* На всякий случай, если несколько картинок справа */
+}
+
+/* Заголовок H2 ("Break a leg") - должен очистить float */
+.markdown-h2:nth-of-type(1) {
+    clear: right;
+    /* Начинаем заголовок ПОД картинкой справа */
+    padding-top: 1rem;
+    /* Добавим отступ сверху */
+    font-size: 1.8rem;
+    color: #3B3663;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+
+/* Вторая картинка (торт) - слева */
+.markdown-img:nth-of-type(2) {
+    /* Выбираем вторую картинку */
+    float: left;
+    max-width: 30%;
+    /* Чуть меньше масок */
+    height: auto;
+    margin-right: 2.5rem;
+    /* Отступ справа от текста */
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    clear: left;
+    /* На всякий случай */
+}
+
+/* Заголовок H2 ("Piece of cake") - должен очистить float */
+.markdown-h2:nth-of-type(2) {
+    clear: left;
+    /* Начинаем заголовок ПОД картинкой слева */
+    padding-top: 1rem;
+    /* Добавим отступ сверху */
+    font-size: 1.8rem;
+    color: #3B3663;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+/* Остальные стили для Markdown элементов */
+.markdown-h3 {
+    font-size: 1.5rem;
+    color: #3B3663;
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    font-weight: bold;
+}
+
+.markdown-p {
+    margin-bottom: 1.2rem;
+    /* Текст будет обтекать float элементы */
+}
+
+.markdown-ul,
+.markdown-ol {
+    margin-bottom: 1.2rem;
+    padding-left: 2rem;
+    /* Списки также будут обтекать float */
+}
+
+.markdown-li {
+    margin-bottom: 0.5rem;
+}
+
+.markdown-a {
+    color: #7873ae;
+    /* Фиолетовая ссылка */
+    text-decoration: underline;
+}
+
+.markdown-a:hover {
+    color: #3B3663;
+}
+
+.markdown-strong {
+    font-weight: bold;
+    color: #333;
+    /* Чуть темнее основного текста */
+}
+
+.markdown-em {
+    font-style: italic;
+}
+
+/* Очистка float после последнего элемента, если нужно */
+.blog-post-content::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Стили для блока призыва к действию (если он есть) */
+/* Предполагается, что CallToActionBlock - это компонент с классом */
+.call-to-action-block {
+    /* Замени на реальный класс твоего компонента */
+    clear: both;
+    /* Убедимся, что он ниже float-элементов */
+    margin-top: 4rem;
+    /* Большой отступ сверху */
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+    /* Линия сверху */
+    text-align: center;
+}
+
+/* Пример кнопки внутри CTA */
+.cta-button {
+    display: inline-block;
+    background-color: #FEF5F1;
+    /* Светлый фон */
+    color: #3B3663;
+    /* Темный текст */
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s ease;
+}
+
+.cta-button:hover {
+    transform: scale(1.05);
+}
+
+
+/* Адаптация: на мобильных убираем float */
+@media (max-width: 768px) {
+
+    .markdown-img:nth-of-type(1),
+    .markdown-img:nth-of-type(2) {
+        float: none;
+        /* Убираем обтекание */
+        display: block;
+        /* Картинка как блок */
+        max-width: 80%;
+        /* Шире */
+        margin: 2rem auto;
+        /* Центрируем с отступами */
+    }
+
+    .markdown-h2:nth-of-type(1),
+    .markdown-h2:nth-of-type(2) {
+        clear: none;
+        /* Очистка больше не нужна */
+        padding-top: 0;
+    }
+
+    .blog-post-content h1 {
+        font-size: 2rem;
+        /* Уменьшаем заголовок */
+    }
+
+    .markdown-h2 {
+        font-size: 1.5rem;
+    }
+}

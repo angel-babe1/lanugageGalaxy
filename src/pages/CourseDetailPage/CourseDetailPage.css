@@ -1,0 +1,38 @@
+.course-detail-sidebar {
+    margin: 1rem 0 0;
+    padding: 2rem 0;
+}
+
+.course-detail-sidebar .section-divider-top {
+    margin-bottom: 4rem;
+}
+
+.course-detail-page-main {
+    max-width: 1100px;
+    margin: 2rem auto 3rem;
+    padding: 0 1rem;
+}
+
+.study-platforms-section {
+    background-color: #FDF0E7;
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.course-detail-section h2 {
+    text-align: center;
+    font-size: 2em;
+    color: #3B3663;
+    margin-bottom: 4rem;
+}
+
+.platforms-container {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8rem;
+    justify-content: center;
+}
+

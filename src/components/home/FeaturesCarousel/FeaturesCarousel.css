@@ -1,0 +1,137 @@
+.features-section {
+  max-width: 1200px;
+  margin: 3.5rem auto;
+  padding: 0 1rem;
+}
+
+.carousel-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #3B3663;
+  font-family: 'Cursive', sans-serif;
+  margin-bottom: 2rem;
+}
+
+.carousel {
+  position: relative;
+  margin-bottom: 1rem;
+  padding: 0 50px;
+}
+
+.featuresCarousel-window {
+  overflow: hidden;
+  width: 100%; 
+  margin: 0 auto;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.5s ease-in-out; 
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.carousel-slide {
+  flex: 0 0 calc((100% / 3) - (2rem / 3)); 
+  box-sizing: border-box;
+}
+
+.featuresCarousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-70%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3B3663;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.featuresCarousel-arrow:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.featuresCarousel-arrow:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.arrow-left {
+  left: 0px;
+}
+
+.arrow-right {
+  right: 0px;
+}
+
+.featuresCarousel-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.featuresCarousel-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #D1D1D1;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.featuresCarousel-dot:hover:not(:disabled) { 
+  background-color: #3B3663; 
+}
+
+.featuresCarousel-dot.active {
+  background-color: #3B3663;
+}
+
+.featuresCarousel-dot:disabled {
+  background-color: #e0e0e0; 
+  cursor: default;
+}
+
+
+@media (max-width: 992px) {
+  .carousel-slide {
+     flex: 0 0 calc((100% / 2) - (1rem / 2));
+  }
+}
+
+
+@media (max-width: 600px) {
+ .carousel {
+    padding: 0 40px; 
+  }
+   .arrow-left {
+    left: -5px;
+  }
+  .arrow-right {
+    right: -5px;
+  }
+  .carousel-slide {
+     flex: 0 0 100%;
+  }
+   .carousel-track {
+     gap: 0; 
+     padding-left: 0;
+     padding-right: 0;
+   }
+   .carousel-title {
+    font-size: 2rem;
+  }
+}

@@ -1,0 +1,15 @@
+.find-more-btn {
+    background-color: #FEF5F1;
+    color: #3B3663;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.8rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.find-more-btn:hover {
+    transform: scale(1.05);
+}

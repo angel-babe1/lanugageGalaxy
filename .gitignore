@@ -1,0 +1,87 @@
+# Локальные зависимости
+# Игнорируем node_modules в корне проекта и в папке functions
+/node_modules
+/functions/node_modules
+
+liqpay.private_key
+
+# Логи
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+firebase-debug.log*
+firebase-debug.*.log*
+
+# Файлы окружения
+# Храните .env.example в репозитории, а .env (с реальными ключами) игнорируйте
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+
+# Сборки React (например, от Create React App, Vite)
+/build
+/dist
+/dist-ssr
+/.output
+/.next # Если используете Next.js
+/.vite # Если используете Vite
+
+# Файлы кэша и временные файлы
+*.local
+*.patch
+*.diff
+*.orig
+
+# Editor directories and files
+.vscode/*
+!.vscode/settings.json # Можно оставить, если хотите делиться настройками VS Code
+!.vscode/extensions.json # Можно оставить, если хотите делиться рекомендуемыми расширениями
+!.vscode/launch.json # Можно оставить, если хотите делиться конфигурациями запуска
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.sublime/
+
+# Файлы IDE
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Файлы операционной системы
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Файлы Firebase Emulators (если используете локальные эмуляторы)
+.firebase/emulators/
+*.jar # Некоторые эмуляторы Firebase используют .jar файлы
+
+# Другие специфичные для Firebase файлы, которые могут генерироваться локально
+# (обычно они уже игнорируются Firebase CLI, но на всякий случай)
+# .firebase/hosting.*.cache
+
+# Если используете TypeScript и генерируете .js файлы рядом с .ts
+# *.js
+# *.js.map
+# (Только если вы компилируете TypeScript в JavaScript в той же директории
+# и не хотите коммитить сгенерированные .js файлы. Обычно сборка идет в отдельную папку типа /build или /dist)
+
+# Покрытие тестами
+coverage
+.nyc_output
+
+firebase-scripts/languagegalaxy-f2369-firebase-adminsdk-fbsvc-d2757775b6.json

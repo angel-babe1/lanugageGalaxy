@@ -1,0 +1,37 @@
+.about-school-container {
+    margin: 30px auto;
+}
+
+.about-school-title {
+    text-align: center;
+}
+
+.about-intro-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 35rem;
+    margin: 30px auto;
+}
+
+.about-intro-pictures img {
+    width: 20rem;
+    position: absolute;
+}
+
+.about-intro-image-top{
+    top: 0;
+    z-index: 2;
+}
+
+.about-intro-bottom {
+    top: 210px;
+    left: 180px;
+}
+
+.about-intro-pictures {
+    position: relative;
+}
+
+.about-intro-text {
+    width: 60%;
+}

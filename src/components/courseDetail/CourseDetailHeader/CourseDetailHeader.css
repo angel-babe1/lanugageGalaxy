@@ -1,0 +1,49 @@
+.course-detail-header {
+    display: flex;
+    /* align-items: flex-start; */
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem 0;
+    /* border-bottom: 1px solid #eee; */
+}
+
+.course-detail-cover-image-container {
+    width: 80%;
+    max-width: 600px;
+    aspect-ratio: 16 / 16;
+    overflow: hidden;
+    position: relative;
+}
+
+.course-detail-cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.course-intro-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 0 2rem 1.5rem;
+}
+
+.course-price {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.purchase-button {
+    background-color: #FEF5F1;
+    color: #3B3663;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.8rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}

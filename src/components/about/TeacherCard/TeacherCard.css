@@ -1,0 +1,15 @@
+.teacher-card {
+    display: flex;
+    justify-content: space-evenly;
+    border-bottom: 1px solid #000;
+    padding: 30px 0 10px;
+}
+
+.teacher-image-container h3 {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.teacher-info {
+    width: 40rem;
+}

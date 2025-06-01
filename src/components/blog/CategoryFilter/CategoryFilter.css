@@ -1,0 +1,31 @@
+.category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.category-button {
+    padding: 0.6rem 2rem;
+    border: 2px solid #F7E1D7;
+    background-color: transparent;
+    color: black;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    font-weight: 500;
+}
+
+.category-button:hover {
+    background-color: #fdf8f3;
+    border-color: #d1bfae;
+}
+
+.category-button.active {
+    background-color: #F7E1D7;
+    border-color: #F7E1D7;
+    color: black;
+    font-weight: bold;
+}

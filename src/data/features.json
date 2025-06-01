@@ -1,0 +1,38 @@
+[
+    {
+      "id": "fc1",
+      "image": "offer-img.png", 
+      "alt": "People in a speaking club",
+      "description": "Speaking clubs with the native speakers every week, a lot of different activities"
+    },
+    {
+      "id": "fc2",
+      "image": "offer-img.png", 
+      "alt": "Experienced teacher illustration",
+      "description": "Experts with experience in teaching, who were approved by the headmaster of the school"
+    },
+    {
+      "id": "fc3",
+      "image": "offer-img.png", 
+      "alt": "Student preparing for exams",
+      "description": "We can help you prepare for your exams. Every teacher here had already passed them"
+    },
+    {
+      "id": "fc4",
+      "image": "offer-img.png", 
+      "alt": "Newspaper articles",
+      "description": "A lot of different articles to help you in studying languages. Useful phrases, interesting facts"
+    },
+    {
+      "id": "fc5",
+      "image": "offer-img.png", 
+      "alt": "Newspaper articles",
+      "description": "Individual and group lessons with a friendly atmosphere."
+    },
+    {
+      "id": "fc6",
+      "image": "offer-img.png", 
+      "alt": "Newspaper articles",
+      "description": "Easy to study with all our online-platforms. You don't need to buy anything more."
+    }
+  ]

@@ -1,0 +1,24 @@
+.our-mission-section {
+    padding: 4rem 1rem; 
+  }
+
+.mission-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #3B3663;
+    font-family: 'Cursive', sans-serif; 
+    margin-bottom: 3rem;
+  }
+
+/* .mission-image-wrapper {
+    display: flex;
+    justify-content: center;
+} */
+
+.mission-image {
+    display: block;
+    width: 100%;
+    /* max-width: 1000px; */
+    height: auto;
+    margin: 0 auto;
+}

@@ -1,0 +1,23 @@
+.benefit-card {
+    background-color: #534c85;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 500px;
+    position: absolute;
+    z-index: 5;
+}
+
+.benefit-card-title {
+    /* Обращение к классу внутри BenefitCard.jsx */
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #FCFBFB;
+    margin-bottom: 0.8rem;
+}
+
+.benefit-card-description {
+    /* Обращение к классу внутри BenefitCard.jsx */
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #FCFBFB;
+}
