@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../../../firebase.js';
@@ -20,6 +20,9 @@ const SignUpForm = () => {
     const [loading, setLoading] = useState(false);
     const [firebaseError, setFirebaseError] = useState('');
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || '/';
 
     const handleChange = (field) => (e) => {
         setFormData(prev => ({ ...prev, [field]: e.target.value }));
@@ -77,7 +80,7 @@ const SignUpForm = () => {
             });
 
             console.log('User registered successfully:', user);
-            navigate('/'); // Редирект на главную после успешной регистрации
+            navigate(from, { replace: true });
         } catch (error) {
             console.error('Error during registration:', error);
             if (error.code === 'auth/email-already-in-use') {

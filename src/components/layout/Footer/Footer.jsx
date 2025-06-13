@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './Footer.css';
 
 import logo from '../../../assets/images/logo.svg';
@@ -9,39 +10,41 @@ import email from '../../../assets/images/email.svg';
 
 
 function Footer() {
+    const { t } = useTranslation();
+
     return (
         <footer className='footer'>
             <nav className='footer-nav container'>
                 <div className='right-section'>
-                    <Link to='/about'>Про нас</Link>
-                    <Link to='studying'>Навчання</Link>
-                    <Link to='games'>Ігри</Link>
+                    <Link to='/about'>{t('footer.nav.about')}</Link>
+                    <Link to='/studying'>{t('footer.nav.courses')}</Link>
+                    <Link to='/games'>{t('footer.nav.games')}</Link>
                 </div>
 
                 <div className='left-section'>
-                    <Link to='/blog'>Блог</Link>
-                    <Link to='reviews'>Відгуки</Link>
-                    <Link to='contacts'>Контакти</Link>
+                    <Link to='/blog'>{t('footer.nav.blog')}</Link>
+                    <Link to='/reviews'>{t('footer.nav.reviews')}</Link>
+                    <Link to='/contacts'>{t('footer.nav.contact')}</Link>
                 </div>
 
                 <div className='social-links'>
                     <a href="https://t.me/language_galaxy" className="social-link" target="_blank" rel="noopener noreferrer">
-                        <img src={instagram}></img>
+                        <img src={instagram} alt="Instagram" />
                         <span>language_galaxy</span>
                     </a>
                     <a href="https://instagram.com/language_galaxy" className="social-link" target="_blank" rel="noopener noreferrer">
-                        <img src={telegram}></img>
+                        <img src={telegram} alt="Telegram" />
                         <span>language_galaxy</span>
                     </a>
                     <a href="mailto:language_galaxy@gmail.com" className="social-link">
-                        <img src={email}></img>
+                        <img src={email} alt="Email" />
                         <span>language_galaxy@gmail.com</span>
                     </a>
                 </div>
 
                 <div className='logo'>
-                    <img src={logo} alt="Language Galaxy" />
-                    <span className="logo-text">Language Galaxy</span>
+                    <img src={logo} alt={t('footer.logoAlt')} />
+                    <span className="logo-text">{t('footer.logoText')}</span>
                 </div>
             </nav>
         </footer>

@@ -1,23 +1,23 @@
 .footer {
     background-color: #3B3663;
     color: white;
-    padding: 2rem 4rem;
-}
-
-.right-section,
-.left-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    justify-content: space-between;
+    padding: 2rem 1rem;
 }
 
 .footer-nav {
     display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    justify-content: space-between;
-    align-items: stretch;
+    flex-direction: column;
+    text-align: center;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.right-section,
+.left-section,
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .footer-nav a {
@@ -25,16 +25,7 @@
     text-decoration: none;
     font-size: 1rem;
     transition: opacity 0.2s;
-}
-
-.footer-nav a {
     opacity: 0.8;
-}
-
-.social-links {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
 }
 
 .social-links a {
@@ -42,23 +33,23 @@
     text-decoration: none;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     transition: opacity 0.2s;
 }
 
-
-.social-links a:hover {
-    opacity: 0.8;
+.social-links a:hover,
+.footer-nav a:hover {
+    opacity: 1;
 }
 
-.logo {
+.footer .logo {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-.logo img {
-    /* width: 50px; */
+.footer .logo img {
     height: 100px;
 }
 
@@ -66,4 +57,28 @@
     font-family: 'DM Serif Display';
     font-size: 1.5rem;
     color: white;
+}
+
+@media (min-width: 768px) {
+    .footer {
+        padding: 2rem 2rem;
+    }
+
+    .footer-nav {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        gap: 1rem;
+        justify-content: space-between;
+    }
+
+    .social-links a {
+        justify-content: flex-start;
+    }
+}
+
+@media (min-width: 1024px) {
+    .footer {
+        padding: 2rem 4rem;
+    }
 }

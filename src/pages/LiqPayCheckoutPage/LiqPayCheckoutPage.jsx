@@ -1,64 +1,78 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // useLocation уже импортирован
-import { createPayment } from '../../services/liqpay/liqpayService'; // Убедитесь, что путь правильный
+import { useNavigate, useLocation } from 'react-router-dom';
+import { createPayment } from '../../services/liqpay/liqpayService';
 import './LiqPayCheckoutPage.css';
 
 const LiqPayCheckoutPage = () => {
     const navigate = useNavigate();
-    const location = useLocation(); // Используем для получения state
+    const location = useLocation();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const initializePayment = async () => {
+            console.log("[LiqPayCheckoutPage] Initializing payment...");
             try {
-                // Получаем данные заказа из location.state, переданные из CartPage
                 const orderDataFromState = location.state?.orderData;
+                console.log("[LiqPayCheckoutPage] Order data from state:", orderDataFromState);
 
                 if (!orderDataFromState || !orderDataFromState.amount || !orderDataFromState.orderId) {
                     setError('Необходимые данные для оформления заказа отсутствуют. Пожалуйста, вернитесь в корзину и попробуйте снова.');
                     console.error("LiqPayCheckoutPage: orderData from state is missing or incomplete", location.state);
                     setLoading(false);
-                    // Можно добавить кнопку для возврата в корзину или автоматический редирект
-                    // setTimeout(() => navigate('/cart'), 5000);
                     return;
                 }
 
-                // Используем полученные данные заказа для создания платежа
-                const paymentData = await createPayment(orderDataFromState); // orderDataFromState это {amount, description, orderId}
+                console.log("[LiqPayCheckoutPage] Order ID to be saved:", orderDataFromState.orderId);
+                localStorage.setItem('processingOrderId', orderDataFromState.orderId);
+                const retrievedId = localStorage.getItem('processingOrderId');
+                console.log("[LiqPayCheckoutPage] Order ID retrieved from localStorage immediately after setItem:", retrievedId);
 
-                // Создаем форму для отправки на LiqPay - ВАШ КОД УЖЕ ЭТО ДЕЛАЕТ ПРАВИЛЬНО
+                console.log("[LiqPayCheckoutPage] Calling createPayment service...");
+                const paymentData = await createPayment(orderDataFromState);
+                console.log("[LiqPayCheckoutPage] Payment data received from service:", paymentData);
+
+                if (!paymentData || !paymentData.data || !paymentData.signature) {
+                    setError('Не удалось получить данные для формы LiqPay от сервиса.');
+                    console.error("[LiqPayCheckoutPage] Invalid paymentData received from createPayment service", paymentData);
+                    setLoading(false);
+                    return;
+                }
+
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.action = 'https://www.liqpay.ua/api/3/checkout';
                 form.acceptCharset = 'utf-8';
+                console.log("[LiqPayCheckoutPage] Form created. Action:", form.action);
 
                 const dataInput = document.createElement('input');
                 dataInput.type = 'hidden';
                 dataInput.name = 'data';
-                dataInput.value = paymentData.data; // paymentData.data приходит из createPayment
+                dataInput.value = paymentData.data;
                 form.appendChild(dataInput);
+                console.log("[LiqPayCheckoutPage] Data input appended. Value:", paymentData.data.substring(0, 50) + "...");
 
                 const signatureInput = document.createElement('input');
                 signatureInput.type = 'hidden';
                 signatureInput.name = 'signature';
-                signatureInput.value = paymentData.signature; // paymentData.signature приходит из createPayment
+                signatureInput.value = paymentData.signature;
                 form.appendChild(signatureInput);
+                console.log("[LiqPayCheckoutPage] Signature input appended. Value:", paymentData.signature);
 
                 document.body.appendChild(form);
+                console.log("[LiqPayCheckoutPage] Form appended to body. Submitting form...");
                 form.submit();
-                // document.body.removeChild(form); // Удалять форму лучше после небольшой задержки или не удалять, если редирект происходит сразу
+                console.log("[LiqPayCheckoutPage] form.submit() called.");
 
             } catch (err) {
                 setError(`Ошибка при инициализации платежа: ${err.message || 'Неизвестная ошибка'}`);
                 console.error('Payment initialization error:', err);
-                setLoading(false); // Важно сбросить loading при ошибке
+                setLoading(false);
             }
-            // finally { setLoading(false); } // setLoading(false) здесь не нужен, т.к. происходит редирект или ошибка
         };
 
         initializePayment();
-    }, [navigate, location]); // Добавили location в зависимости
+    }, [navigate, location]);
 
     if (loading) {
         return (
@@ -83,7 +97,6 @@ const LiqPayCheckoutPage = () => {
         );
     }
 
-    // Этот return обычно не достигается, так как либо происходит редирект, либо отображается ошибка/загрузка
     return null;
 };
 

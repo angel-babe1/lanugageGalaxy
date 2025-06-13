@@ -1,7 +1,9 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import './Pagination.css';
 
 function Pagination({ currentPage, totalPages, onPageChange }) {
+    const { t } = useTranslation();
     if (totalPages <= 1) {
         return null;
     }
@@ -31,7 +33,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
                 disabled={currentPage === 1}
                 aria-disabled={currentPage === 1}
             >
-                ← Назад
+                {t('blogPage.pagination.prev')}
             </button>
 
             <div className="page-numbers">
@@ -54,7 +56,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
                 disabled={currentPage === totalPages}
                 aria-disabled={currentPage === totalPages}
             >
-                Наступна →
+                 {t('blogPage.pagination.next')}
             </button>
         </nav>
     )

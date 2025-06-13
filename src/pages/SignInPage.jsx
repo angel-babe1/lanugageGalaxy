@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import SignInForm from "../components/forms/SignInForm/SignInForm";
 import FormBtn from "../components/forms/FormBtn/FormBtn";
 import '../components/forms/SignUpForm/SignUpForm.css';
-// import './SignInPage.css';
 
 function SignInPage() {
     return (

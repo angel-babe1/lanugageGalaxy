@@ -1,27 +1,34 @@
-import React, { useState, useMemo } from 'react';
-import Header from '../components/layout/Header/Header';
-import Footer from '../components/layout/Footer/Footer';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import CategoryFilter from '../components/blog/CategoryFilter/CategoryFilter';
 import BlogCard from '../components/blog/BlogCard/BlogCard';
 import Pagination from '../components/blog/Pagination/Pagination';
-import blogPostsData, { blogCategories } from '../data/blogPostsData'; // Импорт данных и категорий
+import blogPostsData, { blogCategoriesKeys } from '../data/blogPostsData';
 import './BlogPage.css';
 
-const POSTS_PER_PAGE = 3; // Сколько постов на странице
+const POSTS_PER_PAGE = 3;
 
 function BlogPage() {
-  const [selectedCategory, setSelectedCategory] = useState('All'); // Начинаем со "Все статьи"
+  const { t, i18n } = useTranslation();
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [allPosts, setAllPosts] = useState([]);
 
-  // Фильтрация постов
+  useEffect(() => {
+    const translatedPosts = blogPostsData.map(post => ({
+        ...post,
+        ...t(`blogPage.posts.${post.id}`, { returnObjects: true })
+    }));
+    setAllPosts(translatedPosts);
+  }, [i18n.language, t]);
+
   const filteredPosts = useMemo(() => {
-    if (selectedCategory === 'All') {
-      return blogPostsData;
+    if (selectedCategory === 'all') {
+      return allPosts;
     }
-    return blogPostsData.filter(post => post.category === selectedCategory);
-  }, [selectedCategory]);
+    return allPosts.filter(post => post.categoryKey === selectedCategory);
+  }, [selectedCategory, allPosts]);
 
-  // Пагинация
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
   const displayedPosts = useMemo(() => {
     const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
@@ -29,10 +36,9 @@ function BlogPage() {
     return filteredPosts.slice(startIndex, endIndex);
   }, [filteredPosts, currentPage]);
 
-  // Обработчики
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    setCurrentPage(1); // Сбрасываем на первую страницу при смене категории
+    setCurrentPage(1);
   };
 
   const handlePageChange = (pageNumber) => {
@@ -40,51 +46,41 @@ function BlogPage() {
   };
 
   return (
-    <>
-      <main className="blog-page-main">
-        <div className="container">
-          <h1 className="blog-title">Blog</h1>
+    <main className="blog-page-main">
+      <div className="container">
+        <h1 className="blog-title">{t('blogPage.title')}</h1>
 
-          {/* Фильтр категорий */}
-          <CategoryFilter
-            categories={blogCategories}
-            selectedCategory={selectedCategory}
-            onSelectCategory={handleCategoryChange}
+        <CategoryFilter
+          categories={blogCategoriesKeys} 
+          selectedCategory={selectedCategory}
+          onSelectCategory={handleCategoryChange}
+        />
+
+        {displayedPosts.length > 0 ? (
+          <div className="blog-grid">
+            {displayedPosts.map((post) => (
+              <BlogCard
+                key={post.id}
+                slug={post.slug}
+                title={post.cardTitle}
+                description={post.description}
+                image={post.image}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="no-posts-message">{t('blogPage.noPostsMessage')}</p>
+        )}
+
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
           />
-
-          {/* Сетка постов */}
-          {displayedPosts.length > 0 ? (
-            <div className="blog-grid">
-              {displayedPosts.map((post) => (
-                <BlogCard
-                  key={post.id}
-                  id={post.id} // Передаем id
-                  slug={post.slug} // Передаем slug
-                  // Используем cardTitle если он есть, иначе обычный title
-                  title={post.cardTitle || post.title}
-                  description={post.description}
-                  // Картинка уже импортирована в blogPostsData.js
-                  image={post.image}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="no-posts-message">Немає статей у цій категорії.</p>
-          )}
-
-
-          {/* Пагинация */}
-          {totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          )}
-
-        </div>
-      </main>
-    </>
+        )}
+      </div>
+    </main>
   );
 }
 

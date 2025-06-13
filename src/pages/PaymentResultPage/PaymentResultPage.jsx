@@ -1,75 +1,55 @@
-// src/pages/PaymentResultPage/PaymentResultPage.jsx
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { getPaymentStatus } from '../../services/liqpay/liqpayService'; // verifyPayment удален, т.к. не используется здесь
+import { useNavigate } from 'react-router-dom';
+import { getPaymentStatus } from '../../services/liqpay/liqpayService';
 import { useCart } from '../../content/CartContext';
 import './PaymentResultPage.css';
 
 const PaymentResultPage = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const { clearCart, cartItems } = useCart(); // cartItems для проверки перед очисткой
-    const [paymentStatus, setPaymentStatus] = useState(null); // Изменено на paymentStatus
+    const { clearCart } = useCart(); 
+    const [statusInfo, setStatusInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const checkPaymentStatus = async () => {
+     useEffect(() => {
+        const fetchAndUpdateStatus = async () => {
             setLoading(true);
             setError(null);
-            setPaymentStatus(null); // Сбрасываем предыдущий статус
+            
+            const processingOrderId = localStorage.getItem('processingOrderId');
+            console.log("[PaymentResultPage] Retrieved orderId from localStorage:", processingOrderId);
+
+            if (!processingOrderId) {
+                setError("Не вдалося визначити номер замовлення для перевірки статусу.");
+                setLoading(false);
+                return;
+            }
 
             try {
-                const searchParams = new URLSearchParams(location.search);
-                const data = searchParams.get('data');
-                const signature = searchParams.get('signature'); // signature здесь не используется для проверки, но может быть полезен для логирования
-
-                if (!data) { // signature может и не прийти, если это был не редирект с формы LiqPay, а прямой заход
-                    throw new Error("Отсутствует параметр 'data' в URL.");
-                }
-
-                let decodedData;
-                let orderId;
-                try {
-                    decodedData = JSON.parse(atob(data)); // atob() для base64
-                    orderId = decodedData.order_id;
-                } catch (e) {
-                    console.error("Ошибка декодирования 'data':", e);
-                    throw new Error("Не удалось декодировать данные платежа из URL.");
-                }
-
-                if (!orderId) {
-                    throw new Error('Не удалось извлечь order_id из данных платежа.');
-                }
-
-                // Основной источник правды - запрос статуса к API LiqPay
-                const statusResult = await getPaymentStatus(orderId);
-                setPaymentStatus(statusResult); // Устанавливаем полученный статус
+                const statusResult = await getPaymentStatus(processingOrderId);
+                setStatusInfo(statusResult);
+                console.log("[PaymentResultPage] Status from backend:", statusResult);
 
                 if (statusResult && (statusResult.status === 'success' || statusResult.status === 'sandbox')) {
-                    // Очищаем корзину только если она не пуста и платеж успешен
-                    if (cartItems && cartItems.length > 0) {
-                        clearCart();
-                        console.log("Корзина очищена после успешной оплаты заказа:", orderId);
-                    }
+                    console.log("[PaymentResultPage] Payment successful, clearing cart.");
+                    clearCart();
                 } else if (statusResult) {
-                     console.warn(`Платеж для заказа ${orderId} не успешен. Статус: ${statusResult.status}, Описание: ${statusResult.err_description || 'Нет описания'}`);
-                } else {
-                    console.warn(`Не удалось получить статус для заказа ${orderId}. Ответ от getPaymentStatus был пуст.`);
+                    setError(statusResult.err_description || `Платіж не успішний. Статус: ${statusResult.status}`);
                 }
-
             } catch (err) {
-                console.error('PaymentResultPage - Ошибка обработки статуса платежа:', err);
-                setError(err.message || 'Произошла ошибка при проверке статуса платежа.');
+                console.error('[PaymentResultPage] Помилка при запиті статусу платежу:', err);
+                setError(err.message || 'Сталася помилка під час перевірки статусу платежу.');
             } finally {
                 setLoading(false);
+                localStorage.removeItem('processingOrderId');
+                console.log("[PaymentResultPage] Removed orderId from localStorage.");
             }
         };
 
-        checkPaymentStatus();
-    }, [location.search, clearCart, cartItems]); // Используем location.search, т.к. именно его изменение важно
-                                           // cartItems добавлен, чтобы re-run не происходил при его изменении,
-                                           // но его актуальное значение используется внутри
+        const timer = setTimeout(fetchAndUpdateStatus, 2000); 
+
+        return () => clearTimeout(timer);
+    }, [clearCart]);
 
     const handleReturn = () => {
         navigate('/');
@@ -80,7 +60,7 @@ const PaymentResultPage = () => {
             <div className="result-container">
                 <div className="loading-spinner">
                     <div className="spinner"></div>
-                    <p>Проверка статуса платежа...</p>
+                    <p>Перевіряємо статус вашого платежу...</p>
                 </div>
             </div>
         );
@@ -88,51 +68,35 @@ const PaymentResultPage = () => {
 
     if (error) {
         return (
-            <div className="result-container">
-                <div className="error-message">
-                    <h2>Ошибка обработки платежа</h2>
-                    <p>{error}</p>
-                    <button onClick={handleReturn}>Вернуться на главную</button>
-                </div>
+            <div className="result-container error-message">
+                <h2>Помилка обробки платежу</h2>
+                <p>{error}</p>
+                <button onClick={handleReturn}>Повернутись на головну</button>
             </div>
         );
     }
 
-    // Отображение информации о платеже
-    if (paymentStatus) {
-        const isSuccess = paymentStatus.status === 'success' || paymentStatus.status === 'sandbox';
+    if (statusInfo) {
+        const isSuccess = statusInfo.status === 'success' || statusInfo.status === 'sandbox';
         return (
             <div className="result-container">
-                <div className={`payment-status ${paymentStatus.status}`}>
-                    <h2>
-                        {isSuccess
-                            ? 'Оплата успешно выполнена!'
-                            : `Статус платежа: ${paymentStatus.err_description || paymentStatus.status || 'Неизвестен'}`}
-                    </h2>
-                    <p>
-                        {isSuccess
-                            ? 'Спасибо за ваш заказ!'
-                            : 'Пожалуйста, проверьте детали или свяжитесь с поддержкой.'}
-                    </p>
+                <div className={`payment-status ${isSuccess ? 'success' : 'failure'}`}>
+                    <h2>{isSuccess ? 'Оплата успішно виконана!' : 'Помилка оплати'}</h2>
+                    <p>{isSuccess ? 'Дякуємо за ваше замовлення!' : (statusInfo.err_description || 'Будь ласка, спробуйте ще раз.')}</p>
                     <div className="payment-details">
-                        {paymentStatus.order_id && <p>Номер заказа: {paymentStatus.order_id}</p>}
-                        {paymentStatus.amount && <p>Сумма: {paymentStatus.amount} {paymentStatus.currency}</p>}
-                        {paymentStatus.payment_id && <p>ID платежа: {paymentStatus.payment_id}</p>}
-                        {/* Можно добавить дату платежа, если она есть: paymentStatus.end_date */}
+                        {statusInfo.order_id && <p>Номер замовлення: {statusInfo.order_id}</p>}
+                        {statusInfo.amount && <p>Сума: {statusInfo.amount} {statusInfo.currency}</p>}
                     </div>
-                    <button onClick={handleReturn}>
-                        Вернуться на главную
-                    </button>
+                    <button onClick={handleReturn}>Повернутись на головну</button>
                 </div>
             </div>
         );
     }
-
-    // Если не загрузка, нет ошибки, но и статуса нет (маловероятно, но для полноты)
+    
     return (
         <div className="result-container">
-            <p>Не удалось загрузить информацию о вашем платеже. Пожалуйста, попробуйте обновить страницу или свяжитесь с поддержкой.</p>
-            <button onClick={handleReturn}>Вернуться на главную</button>
+            <p>Не вдалося завантажити інформацію про ваш платіж.</p>
+            <button onClick={handleReturn}>Повернутись на головну</button>
         </div>
     );
 };

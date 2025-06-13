@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
-import Loader from '../../components/common/Loader/Loader';
+import { useTranslation } from 'react-i18next';
 import { useCart } from '../../content/CartContext';
-import './CourseDetailPage.css';
 
+import Loader from '../../components/common/Loader/Loader';
 import CourseDetailHeader from '../../components/courseDetail/CourseDetailHeader/CourseDetailHeader';
 import CourseAboutSection from '../../components/courseDetail/CourseAboutSection/CourseAboutSection';
 import CourseDetailProgram from '../../components/courseDetail/CourseDetailProgram/CourseDetailProgram';
@@ -14,19 +14,23 @@ import PlatformIcon from '../../components/courseDetail/PlatformIcon/PlatformIco
 import CourseReviewsSection from '../../components/courseDetail/CourseReviewsSection/CourseReviewsSection';
 
 import { reviewImages } from '../../data/courseReviews';
-
 import zoomIcon from '../../assets/images/platforms/Zoom.svg';
 import classroomIcon from '../../assets/images/platforms/Classroom.svg';
 import telegramIcon from '../../assets/images/platforms/Telegram.svg';
 import miroIcon from '../../assets/images/platforms/Miro.svg';
 
+import './CourseDetailPage.css';
+
 function CourseDetailPage() {
-  const { languageId, courseSlug } = useParams();
+  const { courseSlug } = useParams();
+  const { i18n, t } = useTranslation();
   const { addItemToCart } = useCart();
-  const [course, setCourse] = useState(null);
-  const [languageName, setLanguageName] = useState('');
+  
+  const [courseData, setCourseData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const lang = i18n.language;
 
   const platforms = [
     { name: 'Zoom', iconSrc: zoomIcon },
@@ -40,25 +44,15 @@ function CourseDetailPage() {
       setLoading(true);
       setError(null);
       try {
-        if (!languageId || !courseSlug) {
-          throw new Error("Language ID або Course Slug відсутні в URL.");
-        }
+        if (!courseSlug) throw new Error("Course Slug відсутній в URL.");
+        
+        const docRef = doc(db, 'courses_final', courseSlug);
+        const docSnap = await getDoc(docRef);
 
-        const langDocRef = doc(db, 'courses', languageId);
-        const langDocSnap = await getDoc(langDocRef);
-
-        if (langDocSnap.exists()) {
-          const langData = langDocSnap.data();
-          setLanguageName(langData.languageName || languageId.toUpperCase()); // Устанавливаем имя языка
-          const courseDetails = langData.courses?.[courseSlug];
-
-          if (courseDetails) {
-            setCourse(courseDetails);
-          } else {
-            setError(`Курс зі slug "${courseSlug}" не знайдено для мови "${languageId}".`);
-          }
+        if (docSnap.exists()) {
+          setCourseData({ ...docSnap.data(), id: docSnap.id });
         } else {
-          setError(`Мову "${languageId}" не знайдено.`);
+          setError(t('courseDetailsPage.courseNotFound'));
         }
       } catch (err) {
         console.error("Помилка при завантаженні деталей курсу:", err);
@@ -69,21 +63,37 @@ function CourseDetailPage() {
     };
 
     fetchCourse();
-  }, [languageId, courseSlug]);
+  }, [courseSlug, t]);
+
+  const displayData = useMemo(() => {
+    if (!courseData) return null;
+
+    return {
+      slug: courseData.id,
+      title: courseData[`title_${lang}`] || courseData.title_ua,
+      shortDescription: courseData[`shortDescription_${lang}`] || courseData.shortDescription_ua,
+      fullDescription: courseData[`fullDescription_${lang}`] || courseData.fullDescription_ua,
+      duration: courseData[`duration_${lang}`] || courseData.duration_ua,
+      goals: courseData[`goals_${lang}`] || courseData.goals_ua || [],
+      includedItems: courseData[`included_${lang}`] || courseData.included_ua || [],
+      program: courseData[`courseProgram_${lang}`] || courseData.courseProgram_ua || [],
+      price: courseData.price,
+      coverImage: courseData.coverImage
+    };
+  }, [courseData, lang]);
 
   const handlePurchase = () => {
-    if (course) {
-      const productToAdd = {
-        slug: course.slug,
-        title: course.title,
-        price: course.price,
-        coverImage: course.coverImage,
-        language: languageId.toLowerCase(),
-        shortDescription: course.shortDescription,
+    if (displayData && courseData) {
+      const productToAdd = { 
+        slug: displayData.slug,
+        title: displayData.title,
+        price: displayData.price,
+        coverImage: displayData.coverImage,
+        language: courseData.language,
+        shortDescription: displayData.shortDescription,
       };
-      console.log("Adding to cart:", productToAdd);
       addItemToCart(productToAdd);
-      alert(`${course.title} додано до кошика!`);
+      alert(`${displayData.title} ${t('courseDetailsPage.addedToCart')}`);
     }
   };
 
@@ -92,18 +102,16 @@ function CourseDetailPage() {
     <main className="course-detail-page-main error-page">
       <div className="container">
         <h1>{error}</h1>
-        <Link to={`/studying/${languageId}`} className="back-link">← Повернутись до курсів мови</Link>
-        <br />
-        <Link to="/studying" className="back-link">← Повернутись до вибору мови</Link>
+        <Link to="/studying" className="back-link">{t('courseDetailsPage.backToCourses')}</Link>
       </div>
     </main>
   );
 
-  if (!course) return (
+  if (!displayData) return (
     <main className="course-detail-page-main error-page">
       <div className="container">
-        <h1>Курс не знайдено.</h1>
-        <Link to={`/studying/${languageId}`} className="back-link">← Повернутись до курсів мови</Link>
+        <h1>{t('courseDetailsPage.courseNotFound')}</h1>
+        <Link to="/studying" className="back-link">{t('courseDetailsPage.backToCourses')}</Link>
       </div>
     </main>
   );
@@ -111,37 +119,35 @@ function CourseDetailPage() {
   return (
     <main className="course-detail-page-main">
       <div className="container">
-        <Link to={`/studying/${languageId}`} className="back-link">
-          ← Назад до курсів {languageName}
-        </Link>
+        <Link to="/studying" className="back-link">{t('courseDetailsPage.backToCourses')}</Link>
 
         <CourseDetailHeader
-          title={course.title}
-          coverImage={course.coverImage}
-          shortDescription={course.shortDescription}
-          price={course.price}
+          title={displayData.title}
+          coverImage={displayData.coverImage}
+          shortDescription={displayData.shortDescription}
+          price={displayData.price}
           onPurchase={handlePurchase}
         />
 
         <div className="course-detail-content-wrapper">
           <div className="course-detail-main-content">
             <CourseAboutSection
-              fullDescription={course.fullDescription}
-              duration={course.duration}
-              includedItems={course.included}
+              fullDescription={displayData.fullDescription}
+              duration={displayData.duration}
+              includedItems={displayData.includedItems}
             />
-            {course.courseProgram && course.courseProgram.length > 0 && (
-              <CourseDetailProgram program={course.courseProgram} />
+            {displayData.program.length > 0 && (
+              <CourseDetailProgram program={displayData.program} />
             )}
-            {course.goals && course.goals.length > 0 && (
-              <CourseDetailGoals goals={course.goals} />
+            {displayData.goals.length > 0 && (
+              <CourseDetailGoals goals={displayData.goals} />
             )}
           </div>
 
           <aside className="course-detail-sidebar">
             <hr className="section-divider-top" />
             <section className="course-detail-section course-detail-sidebar-section">
-              <h2>Платформи для навчання</h2>
+              <h2>{t('courseDetailsPage.platformsTitle')}</h2>
               <div className="platforms-container">
                 {platforms.map((platform) => (
                   <PlatformIcon
@@ -152,8 +158,6 @@ function CourseDetailPage() {
                 ))}
               </div>
             </section>
-            {/* Можно добавить компонент для отзывов, если они есть в данных курса */}
-            {/* <CourseReviews reviews={course.reviews} /> */}
           </aside>
         </div>
         <CourseReviewsSection reviews={reviewImages} />

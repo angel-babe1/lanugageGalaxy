@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../../firebase';
 import InputField from "../../common/InputField/InputField";
@@ -11,9 +11,12 @@ import KeyIcon from '../../../assets/icons/KeyIcon.svg';
 
 const SignInForm = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
-    const [error, setError] = useState(''); // Одна строка для ошибки входа
+    const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || '/';
 
     const handleChange = (field) => (e) => {
         setFormData(prev => ({ ...prev, [field]: e.target.value }));
@@ -31,10 +34,7 @@ const SignInForm = () => {
         try {
             await signInWithEmailAndPassword(auth, formData.email, formData.password);
             console.log('User signed in successfully');
-            // if (userCredential.user) {
-            //     await handleUserLoginOrRegister(userCredential.user.uid);
-            // }
-            navigate('/'); // Редирект на главную после успешного входа
+            navigate(from, { replace: true });
         } catch (err) {
             console.error('Error signing in:', err);
             if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {

@@ -1,8 +1,11 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import languageGalaxyAnimation from '../../../../assets/images/languageGalaxyAnimation.mp4';
 import './AboutIntroSection.css';
 
 function AboutIntroSection() {
+    const { t } = useTranslation();
+
     return (
         <section className="about-intro-section">
             <video className="intro-video"
@@ -12,10 +15,9 @@ function AboutIntroSection() {
                 loop
                 playsInline
             >
-                Ваш браузер не поддерживает воспроизведение видео.
+                {t('aboutPage.intro.videoFallback')}
             </video>
         </section>
-
     )
 }
 

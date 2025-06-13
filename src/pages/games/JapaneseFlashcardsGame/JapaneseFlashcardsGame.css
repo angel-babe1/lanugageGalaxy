@@ -1,0 +1,189 @@
+.game-page-main {
+    padding: 3rem 0;
+    background-color: #f8f7ff;
+    min-height: 100vh;
+}
+
+.game-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.back-to-games-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: #7c789a;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-to-games-link:hover {
+    color: #3B3663;
+}
+
+.game-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #3B3663;
+    margin-bottom: 0.5rem;
+}
+
+.game-instructions {
+    text-align: center;
+    color: #6a6a8a;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+}
+
+.flashcard-game-board {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+}
+
+.flashcard-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 45%;
+}
+
+.flashcard {
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
+    background-color: #fff;
+    font-size: 1.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flashcard:disabled {
+    cursor: not-allowed;
+}
+
+.flashcard.emoji-card {
+    font-size: 2.5rem;
+}
+
+.flashcard:not(.matched):not(:disabled):hover {
+    transform: translateY(-4px);
+    border-color: #a0a0c0;
+}
+
+.flashcard.selected {
+    border-color: #4a90e2;
+    background-color: #e9f2fc;
+    transform: scale(1.05);
+}
+
+.flashcard.matched {
+    border-color: #7ed321;
+    background-color: #f1f9e8;
+    opacity: 0.6;
+    cursor: default;
+}
+
+.flashcard.wrong {
+    border-color: #d0021b;
+    background-color: #fde8ea;
+    animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.game-finished-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.game-finished-modal {
+    background-color: white;
+    padding: 3rem 4rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.play-again-button {
+    background-color: #3B3663;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 1rem;
+}
+
+.play-again-button:hover {
+    background-color: #534d85;
+}
+
+/* Добавьте эти стили в конец файла JapaneseFlashcardsGame.css */
+
+.game-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: #6a6a8a;
+}
+
+.stat-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #3B3663;
+}
+
+.final-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 1.5rem 0;
+    padding: 0.75rem;
+    background-color: #f8f7ff;
+    border-radius: 8px;
+}
+
+.final-stats span {
+    font-size: 1.1rem;
+    color: #3B3663;
+}

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import faqData from "../../../data/faq.json";
+import { useTranslation } from "react-i18next"; 
 import FaqQuestion from "../FaqQuestion/FaqQuestion.jsx";
-
 import './FaqSection.css';
 
 function FaqSection() {
-
+    const { t } = useTranslation(); 
     const [openIndex, setOpenIndex] = useState(null);
+
+    const faqTitle = t('faqSection.title');
+    const faqData = t('faqSection.questions', { returnObjects: true });
 
     const handleToggle = (index) => {
         setOpenIndex(prev => (prev === index ? null : index));
@@ -14,9 +16,9 @@ function FaqSection() {
 
     return (
         <section>
-            <h2 className="faq-title">Frequently asked questions</h2>
+            <h2 className="faq-title">{faqTitle}</h2>
             <div className="faq-list">
-                {faqData.map((item, index) => {
+                {Array.isArray(faqData) && faqData.map((item, index) => {
                     const isOpen = index === openIndex;
 
                     return (

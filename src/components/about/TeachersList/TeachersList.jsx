@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import TeacherCard from "../TeacherCard/TeacherCard";
 import { collection, getDocs } from 'firebase/firestore'; 
 import { db } from '../../../firebase';
+import { useTranslation } from 'react-i18next'; 
 
 function TeachersList() {
+  const { i18n } = useTranslation(); 
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -28,17 +30,25 @@ function TeachersList() {
 
   if (loading) return <div>Loading teachers...</div>;
 
+  const lang = i18n.language;
+
   return (
     <div>
-      {teachers.map((teacher) => (
-        <TeacherCard
-          key={teacher.id}
-          name={teacher.name}
-          photo={teacher.photo} 
-          description={teacher.description}
-          skills={teacher.skills}
-        />
-      ))}
+      {teachers.map((teacher) => {
+        const name = teacher[`name_${lang}`] || teacher.name_ua;
+        const description = teacher[`description_${lang}`] || teacher.description_ua;
+        const skills = teacher[`skills_${lang}`] || teacher.skills_ua || []; 
+
+        return (
+          <TeacherCard
+            key={teacher.id}
+            name={name}
+            photo={teacher.photo} 
+            description={description}
+            skills={skills}
+          />
+        );
+      })}
     </div>
   );
 }

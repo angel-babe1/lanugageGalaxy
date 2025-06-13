@@ -1,0 +1,284 @@
+{
+    "header": {
+        "about": "About Us",
+        "courses": "Courses",
+        "blog": "Blog",
+        "games": "Games",
+        "contact": "Contact",
+        "signUp": "Sign Up",
+        "signOut": "Sign Out",
+        "submenu": {
+            "teachers": "Teachers",
+            "reviews": "Reviews",
+            "faq": "FAQ",
+            "english": "English",
+            "chinese": "Chinese",
+            "korean": "Korean",
+            "japanese": "Japanese"
+        }
+    },
+    "footer": {
+        "nav": {
+            "about": "About us",
+            "courses": "Courses",
+            "games": "Games",
+            "blog": "Blog",
+            "reviews": "Reviews",
+            "contact": "Contact"
+        },
+        "logoAlt": "Language Galaxy Logo",
+        "logoText": "Language Galaxy"
+    },
+    "introSection": {
+        "logoAlt": "Language Galaxy Logo",
+        "greeting": "Hello everyone! We are Language Galaxy. We are ready to help you learn different languages. On this site, you can read our blog with many useful articles. You can also purchase various types of classes for almost any language here.",
+        "alienAlt": "Friendly alien"
+    },
+    "featuresSection": {
+        "title": "What we can offer",
+        "cards": [
+            {
+                "id": "fc1",
+                "alt": "People in a speaking club",
+                "description": "Speaking clubs with the native speakers every week, a lot of different activities"
+            },
+            {
+                "id": "fc2",
+                "alt": "Experienced teacher illustration",
+                "description": "Experts with experience in teaching, who were approved by the headmaster of the school"
+            },
+            {
+                "id": "fc3",
+                "alt": "Student preparing for exams",
+                "description": "We can help you prepare for your exams. Every teacher here had already passed them"
+            },
+            {
+                "id": "fc4",
+                "alt": "Newspaper articles",
+                "description": "A lot of different articles to help you in studying languages. Useful phrases, interesting facts"
+            },
+            {
+                "id": "fc5",
+                "alt": "People communicating in a group lesson",
+                "description": "Individual and group lessons with a friendly atmosphere."
+            },
+            {
+                "id": "fc6",
+                "alt": "Person studying on a laptop",
+                "description": "Easy to study with all our online-platforms. You don't need to buy anything more."
+            }
+        ]
+    },
+    "aboutPage": {
+        "intro": {
+            "videoFallback": "Your browser does not support video playback."
+        },
+        "mission": {
+            "title": "Our Mission",
+            "imageAlt": "Language Galaxy mission map"
+        },
+        "schoolInfo": {
+            "title": "About Us",
+            "image1Alt": "Language Galaxy Team",
+            "image2Alt": "Students in an online class",
+            "paragraphs": [
+                "Hello, we are Language Galaxy, and we are happy to welcome you to our page. The school was founded in 2021.",
+                "Our language school is a space where language becomes a part of life, not just a subject. We have combined Cambridge University methodologies, a communicative approach, and modern digital tools to make every lesson dynamic, practical, and engaging.",
+                "Language is the key to new people and cultures. That's why we've created a warm community where you can make mistakes, joke, and celebrate your first successes. After just three lessons, you'll feel: 'Wow, I can really speak!'"
+            ],
+            "howWeTeachTitle": "How do we teach?",
+            "howWeTeachList": [
+                "Communication first. We speak from the very first lesson; grammar rules are picked up organically.",
+                "Projects instead of tests. You record a podcast, create a travel blog, or prepare a pitch deck—all in the language you are learning.",
+                "Individual roadmap. Every month, you receive a progress report and a plan for the next 4 weeks.",
+                "Soft deadlines. Missed a deadline? The system will remind you and help you catch up without stress."
+            ]
+        },
+        "benefits": {
+            "title": "Studying with us",
+            "alienAlt": "Alien mascot",
+            "ufoAlt": "UFO",
+            "logoTextAlt": "Logo text",
+            "cards": [
+                {
+                    "id": "ben1",
+                    "title": "Innovative Methodology",
+                    "description": "You have never studied with such a methodology, so you will be surprised by our programs."
+                },
+                {
+                    "id": "ben2",
+                    "title": "Quality Guarantee",
+                    "description": "We have the best courses, confirmed by the feedback of hundreds of students."
+                },
+                {
+                    "id": "ben3",
+                    "title": "24/7 Support",
+                    "description": "Our team is always online to help you with any questions."
+                }
+            ]
+        }
+    },
+    "faqSection": {
+        "title": "Frequently Asked Questions",
+        "questions": [
+            {
+                "id": 1,
+                "question": "What languages can be studied at your school?",
+                "answer": "At our school, you can master English, Korean, Chinese, and Japanese. Learn what inspires you: from English classics to anime or K-pop."
+            },
+            {
+                "id": 2,
+                "question": "What learning format do you offer?",
+                "answer": "We offer full online courses and speaking clubs. Everything without leaving your home. Pajamas are an acceptable dress code."
+            },
+            {
+                "id": 3,
+                "question": "Is it possible to take a trial lesson?",
+                "answer": "We do not offer individual trial lessons, but some course materials may be available for preview. Besides, our courses are so engaging that there's no turning back after the first module."
+            },
+            {
+                "id": 4,
+                "question": "How do I sign up for a course?",
+                "answer": "You can choose a course you're interested in on our website, click 'Details,' and place your order through the cart. After payment, you will receive access to the materials and instructions via email."
+            },
+            {
+                "id": 5,
+                "question": "How is payment made?",
+                "answer": "Payment can be made online through our website using a bank card or electronic wallets. We use a secure online payment system so you can learn without any worries."
+            },
+            {
+                "id": 6,
+                "question": "Do you have offline classes?",
+                "answer": "We are a school of the future: everything is online! You can even make coffee during a class."
+            },
+            {
+                "id": 7,
+                "question": "Who are the teachers at the school?",
+                "answer": "Our teachers are not just language experts, but true motivators, philologists, polyglots, and a bit of a psychologist. All with experience, certificates, and a love for their work."
+            },
+            {
+                "id": 8,
+                "question": "From what age can one start learning?",
+                "answer": "It's never too early or too late to learn. Our courses are suitable for everyone from 12 years old to infinity."
+            },
+            {
+                "id": 9,
+                "question": "Can I purchase just one lesson?",
+                "answer": "We only sell full courses, as only a systematic approach yields results. One lesson is like a single episode without the series: interesting, but not enough."
+            },
+            {
+                "id": 10,
+                "question": "What should I do if I miss a lesson?",
+                "answer": "Since our courses are held online in a format convenient for you, all materials are available in your personal account. You can return to a missed module at any time—the learning adapts to your schedule."
+            }
+        ]
+    },
+    "studyingPage": {
+        "backToChoice": "← Back to language choice",
+        "noCourses": "There are no courses available for this language yet.",
+        "chooseLanguageTitle": "Choose a language",
+        "mainIntro": {
+            "title": "Learn with Language Galaxy",
+            "p1": "Language Galaxy can offer you various languages and programs. Just choose the language you want to try, and if you want to test your language skills, you can always take a test. If you are interested in useful information or phrases, be sure to visit our blog.",
+            "p2": "Take a test—and we will select the right program for you.",
+            "imageAlt": "Astronaut and alien next to a rocket"
+        },
+        "languageIntro": {
+            "en": {
+                "languageName": "English",
+                "text": "When you start learning a language, the most important thing is to have a clear schedule and a systematic approach. Our teachers will help you with that — and even more. You can take a test to determine your language level and choose the program that suits you best.",
+                "alt": "English Language Learning Introduction",
+                "buttonText": "Take a test"
+            },
+            "ja": {
+                "languageName": "Japanese",
+                "text": "Japanese is not just a language — it's a whole world of culture and tradition. Our courses will help you immerse yourself in it with comfort and confidence. Take a test to find out your level and choose the best path to knowledge.",
+                "alt": "Japanese Language Learning Introduction",
+                "buttonText": "Take a test"
+            },
+            "ko": {
+                "languageName": "Korean",
+                "text": "Korean is becoming increasingly popular, and you can become a part of it starting today. We’ll help you create an effective study schedule and offer a program tailored to your level. Start with a test — it’s the first step toward confident communication.",
+                "alt": "Korean Language Learning Introduction",
+                "buttonText": "Take a test"
+            },
+            "zh": {
+                "languageName": "Chinese",
+                "text": "Learning Chinese is an exciting and fascinating journey. To succeed, it’s important to have the right approach and the support of experienced teachers. Take a short test to determine your level and choose the course that best suits your needs.",
+                "alt": "Chinese Language Learning Introduction",
+                "buttonText": "Take a test"
+            }
+        }
+    },
+    "courseDetailsPage": {
+        "aboutTitle": "About the course",
+        "durationLabel": "Course duration:",
+        "includedTitle": "What's included",
+        "goalsTitle": "Goals",
+        "priceLabel": "Price:",
+        "purchaseButton": "Purchase course",
+        "programTitle": "Course program",
+        "platformsTitle": "Learning Platforms",
+        "courseNotFound": "Course not found.",
+        "backToCourses": "← Back to courses",
+        "addedToCart": "has been added to the cart!"
+    },
+    "blogPage": {
+        "title": "Blog",
+        "noPostsMessage": "No articles in this category.",
+        "categories": {
+            "all": "All articles",
+            "english": "English",
+            "japanese": "Japanese",
+            "korean": "Korean",
+            "chinese": "Chinese"
+        },
+        "pagination": {
+            "prev": "← Previous",
+            "next": "Next →"
+        },
+        "posts": {
+            "p1": {
+                "cardTitle": "Idioms: Break a leg & Piece of cake",
+                "description": "We break down the origin and meaning of popular English idioms."
+            },
+            "p2": {
+                "cardTitle": "Key to Japanese Culture",
+                "description": "For a beginner Japanologist."
+            },
+            "p3": {
+                "cardTitle": "Grammar: Past Simple",
+                "description": "A simple explanation of the Past Simple tense."
+            },
+            "p4": {
+                "cardTitle": "Politeness Styles in Korean",
+                "description": "How to remember politeness styles in Korean?"
+            },
+            "p5": {
+                "cardTitle": "Questions in Chinese",
+                "description": "We analyze how to ask questions in Chinese."
+            }
+        }
+    },
+    "blogPost": {
+        "notFoundTitle": "Post not found",
+        "notFoundMessage": "Unfortunately, we could not load this post. Perhaps a translation for the selected language does not exist yet.",
+        "backToBlog": "← Back to blog"
+    },
+    "contactsPage": {
+        "title": "Contacts",
+        "people": {
+            "headmaster": {
+                "name": "Albina",
+                "title": "The headmaster",
+                "description": "The headmaster of the school. I'll be glad to answer your questions about the courses and help you purchase the program you liked."
+            },
+            "hr": {
+                "name": "Maria",
+                "title": "Cooperation and HR",
+                "description": "If you have any suggestions or questions about cooperation, you can text me, we'll discuss it. I'll help you to join our friendly school community and tell about all details."
+            }
+        },
+        "contactVia": "Contact {name} via {contactType}"
+    }
+}

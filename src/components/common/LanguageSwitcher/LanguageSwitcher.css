@@ -1,0 +1,81 @@
+.language-switcher {
+    position: relative;
+    cursor: pointer;
+    /* Добавляем отступ снизу, чтобы меню не "прилипало" к элементам ниже */
+    /* Этот padding станет частью hover-зоны и "мостиком" к меню */
+    padding-bottom: 10px; 
+    margin-bottom: -10px; /* Компенсируем padding, чтобы не ломать верстку */
+}
+
+.current-language-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px; /* Уменьшим внутренние отступы, если нужно */
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.language-switcher:hover .current-language-display {
+    background-color: #f5f7fa;
+}
+
+.current-language-display img {
+    width: 24px; /* Немного уменьшим для гармонии */
+    height: 24px;
+    border-radius: 50%;
+}
+
+.current-language-display span {
+    font-weight: 500;
+    color: #3B3663;
+}
+
+.language-options {
+    display: none;
+    position: absolute;
+    /* УБИРАЕМ зазор. Меню теперь начинается сразу под областью родителя */
+    top: 100%; 
+    right: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 0.5rem;
+    z-index: 10;
+    min-width: 100px;
+}
+
+/* Это правило остается главным! */
+.language-switcher:hover .language-options {
+    display: block;
+}
+
+.language-options button {
+    display: flex; /* Используем flex для иконки и текста */
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    padding: 0.5rem 0.8rem;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.language-options button img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.language-options button span {
+    font-weight: 500;
+    color: #3B3663;
+}
+
+.language-options button:hover {
+    background-color: #f5f7fa;
+}

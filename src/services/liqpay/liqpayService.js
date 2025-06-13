@@ -1,79 +1,80 @@
-import { initLiqPay } from './liqpayInit';
-
-let liqpayInstance = null;
-
-const getLiqPayInstance = async () => {
-    if (!liqpayInstance) {
-        const LiqPay = await initLiqPay();
-        liqpayInstance = new LiqPay(process.env.REACT_APP_LIQPAY_PUBLIC_KEY, process.env.REACT_APP_LIQPAY_PRIVATE_KEY);
-    }
-    return liqpayInstance;
-};
-
 export const createPayment = async (orderData) => {
+    console.log("[Client liqpayService] createPayment called with orderData:", orderData);
     try {
-        const liqpay = await getLiqPayInstance();
+        const preparePaymentFunctionUrl = "https://prepareliqpaypaymentdata-mhmryvx76q-ew.a.run.app";
 
-        const params = {
-            version: '3',
-            action: 'pay',
-            amount: orderData.amount,
-            currency: 'UAH',
-            description: orderData.description,
-            order_id: orderData.orderId,
-            result_url: `${window.location.origin}/payment-result`,
-            server_url: `${window.location.origin}/api/payment-callback`,
-            language: 'uk',
-            sandbox: process.env.NODE_ENV === 'development' ? 1 : 0
-            // paytypes: 'card,liqpay,privat24,masterpass,visa_checkout,google_pay,apple_pay', // Опционально: доступные методы оплаты
-        };
+        const response = await fetch(preparePaymentFunctionUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                orderId: orderData.orderId,
+                amount: orderData.amount,
+                description: orderData.description,
+            }),
+        });
 
-        // Создаем подпись для платежа
-        const dataForLiqPay = Buffer.from(JSON.stringify(params)).toString('base64'); // data - это JSON-строка параметров, закодированная в Base64
-        const signatureForLiqPay = liqpay.cnb_signature(params);
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ error: "Unknown server error or non-JSON response" }));
+            console.error("[Client liqpayService] Error from prepareLiqPayPaymentData function:", response.status, errorData);
+            throw new Error(errorData.error || `Server error: ${response.status}`);
+        }
+
+        const paymentFormParams = await response.json();
+        console.log("[Client liqpayService] Received form params from backend:", paymentFormParams);
+
+        if (!paymentFormParams || !paymentFormParams.data || !paymentFormParams.signature) {
+            console.error("[Client liqPayService] Invalid data/signature received from backend.", paymentFormParams);
+            throw new Error("Неможливо отримати коректні параметри для форми LiqPay від сервера.");
+        }
 
         return {
-            data: dataForLiqPay, // Это должно быть base64 от JSON(params)
-            signature: signatureForLiqPay, // Это подпись: base64(sha1(private_key + data + private_key))
-            params // Возвращаем также исходные params, может пригодиться
+            data: paymentFormParams.data,
+            signature: paymentFormParams.signature,
         };
-    } catch (error) {
-        console.error('Error creating payment:', error);
-        throw error;
-    }
-};
 
-export const verifyPayment = (data, receivedSignature) => {
-    try {
-        const liqpay = liqpayInstance; // Предполагаем, что он уже инициализирован
-        if (!liqpay) throw new Error("LiqPay instance not initialized for verification");
-        const expectedSignature = liqpay.str_to_sign(process.env.REACT_APP_LIQPAY_PRIVATE_KEY + data + process.env.REACT_APP_LIQPAY_PRIVATE_KEY);
-        return expectedSignature === receivedSignature;
     } catch (error) {
-        console.error('Error verifying payment on client:', error);
-        return false;
+        console.error('[Client liqpayService] Error in createPayment while fetching from backend:', error);
+        if (error.message.includes("Failed to fetch")) {
+            throw new Error("Помилка мережі під час звернення до сервера для підготовки платежу. Перевірте ваше інтернет-з'єднання.");
+        }
+        throw error; 
     }
 };
 
 export const getPaymentStatus = async (orderId) => {
-    try {
-        const liqpay = await getLiqPayInstance();
-        const params = {
-            version: '3',
-            action: 'status',
-            order_id: orderId
-        };
+    console.log("[Client liqpayService] getPaymentStatus called for orderId:", orderId);
+    if (!orderId) {
+        console.error("[Client liqpayService] orderId is required for getPaymentStatus.");
+        throw new Error("orderId is required to get payment status.");
+    }
 
-        return new Promise((resolve, reject) => {
-            liqpay.api("request", params, (json) => { // `request` это путь к API, например `payment/status`
-                resolve(json);
-            }, (err, data_err) => {
-                console.error("LiqPay API error (getPaymentStatus):", err, data_err);
-                reject(err || data_err || new Error("Failed to get payment status from LiqPay API"));
-            });
+    try {
+        const getStatusFunctionUrl = "https://getliqpayorderstatus-mhmryvx76q-ew.a.run.app";
+
+        const response = await fetch(`${getStatusFunctionUrl}?orderId=${encodeURIComponent(orderId)}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
+
+        const responseData = await response.json(); 
+
+        if (!response.ok) {
+            console.error("[Client liqPayService] Error from getLiqPayOrderStatus function:", response.status, responseData);
+            throw new Error(responseData.error || responseData.details || `Server error while fetching status: ${response.status}`);
+        }
+
+        console.log("[Client liqpayService] Received payment status from backend:", responseData);
+        return responseData; 
+
     } catch (error) {
-        console.error('Error getting payment status:', error);
-        throw error;
+        console.error('[Client liqpayService] Error in getPaymentStatus:', error);
+        if (error.message.includes("Failed to fetch")) {
+            throw new Error("Помилка мережі під час запиту статусу платежу. Перевірте інтернет-з'єднання.");
+        }
+        throw error; 
     }
 };

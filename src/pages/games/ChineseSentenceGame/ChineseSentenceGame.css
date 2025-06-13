@@ -1,0 +1,105 @@
+.sentence-game-bg {
+    background-color: #f8f7ff;
+}
+
+.sentence-task-card {
+    background-color: #fff;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.task-label {
+    color: #6a6a8a;
+    margin: 0 0 0.5rem 0;
+}
+
+.ukrainian-sentence {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #3B3663;
+    margin: 0;
+}
+
+.sentence-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 12px;
+    min-height: 80px;
+    transition: background-color 0.2s ease;
+}
+
+.tiles-box {
+    background-color: #f0f2f5;
+    margin-top: 2rem;
+}
+
+.sentence-box.is-over {
+    background-color: #e6eaf0;
+}
+
+.word-tile {
+    padding: 0.8rem 1.2rem;
+    background-color: #fff;
+    color: #3B3663;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    cursor: grab;
+    user-select: none; /* Предотвращает выделение текста при перетаскивании */
+}
+
+.game-controls {
+    text-align: center;
+    margin-top: 2rem;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.check-button {
+    background-color: #3B3663;
+    color: white;
+    border: none;
+    padding: 0.8rem 2.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.check-button:hover {
+    background-color: #534d85;
+}
+
+/* Стили для кнопки "Зіграти ще раз" можно переиспользовать */
+
+.feedback-message {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.feedback-message.success {
+    background-color: #e8f9e8;
+    color: #2b8c2b;
+}
+
+.feedback-message.error {
+    background-color: #fde8ea;
+    color: #d0021b;
+}
+.feedback-message.finished {
+    font-size: 1.2rem;
+    background-color: transparent;
+    color: #3B3663;
+}

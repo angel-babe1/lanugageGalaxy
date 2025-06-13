@@ -1,109 +1,93 @@
+// src/pages/LanguageCoursePage.jsx (фінальна версія)
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase"; // Проверьте путь
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebase"; 
+import { useTranslation } from "react-i18next";
+
+import CourseIntro from "../components/language/CourseIntro/CourseIntro.jsx"; 
+import CourseSection from "../components/language/CourseSection/CourseSection.jsx"; 
+import Loader from "../components/common/Loader/Loader.jsx"; 
+
 import './LanguageCoursePage.css';
 
-import CourseIntro from "../components/language/CourseIntro/CourseIntro.jsx"; // Проверьте путь
-import CourseSection from "../components/language/CourseSection/CourseSection.jsx"; // Проверьте путь
-import Loader from "../components/common/Loader/Loader.jsx"; // Проверьте путь
+const introStaticData = {
+    en: { image: '/images/courses/englishIntroImg.png', testLink: 'https://forms.gle/xjd3Xr6TWKhXctjH6' },
+    ja: { image: '/images/courses/japaneseIntroImg.jpg', testLink: 'https://forms.gle/xjd3Xr6TWKhXctjH6' },
+    ko: { image: '/images/courses/koreanIntroImg.jfif', testLink: 'https://forms.gle/xjd3Xr6TWKhXctjH6' },
+    zh: { image: '/images/courses/chineseIntroImg.jpg', testLink: 'https://forms.gle/xjd3Xr6TWKhXctjH6' },
+};
 
 function LanguageCoursePage() {
-    const { languageId } = useParams(); // Например, 'en', 'zh'
-    const [languageData, setLanguageData] = useState(null);
+    const { languageId } = useParams(); 
+    const { t } = useTranslation();
+    const navigate = useNavigate();
+
+    const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchLanguageData = async () => {
+        if (!introStaticData[languageId]) {
+            navigate('/studying');
+        }
+    }, [languageId, navigate]);
+    
+    useEffect(() => {
+        const fetchCourses = async () => {
             setLoading(true);
             setError(null);
             try {
-                const docRef = doc(db, "courses", languageId);
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    setLanguageData(docSnap.data());
-                } else {
-                    setError(`Дані для мови "${languageId}" не знайдено`);
-                }
+                const coursesRef = collection(db, "courses_final");
+                const q = query(coursesRef, where("language", "==", languageId));
+                const querySnapshot = await getDocs(q);
+                
+                const courseList = querySnapshot.docs.map(doc => ({...doc.data(), slug: doc.id}));
+                courseList.sort((a, b) => (a.levelOrder || 0) - (b.levelOrder || 0));
+                setCourses(courseList);
             } catch (err) {
-                console.error("Помилка завантаження даних мови:", err);
+                console.error("Помилка завантаження курсів:", err);
                 setError("Помилка завантаження даних");
             } finally {
                 setLoading(false);
             }
         };
-
-        fetchLanguageData();
+        if (introStaticData[languageId]) {
+            fetchCourses();
+        }
     }, [languageId]);
 
-    if (loading) {
-        return <Loader />;
-    }
+    const introDisplay = t(`studyingPage.languageIntro.${languageId}`, { returnObjects: true });
+    const staticData = introStaticData[languageId] || {};
 
-    if (error) {
-        return (
-            <main className="language-course-page-main error-page">
-                <div className="container">
-                    <h1>{error}</h1>
-                    <p>На жаль, ми не змогли завантажити інформацію.</p>
-                    <Link to="/studying" className="back-link">← Повернутись до вибору мови</Link>
-                </div>
-            </main>
-        );
-    }
-
-    if (!languageData) {
-        return null; // Или другое сообщение, если данные не загрузились, но нет ошибки
-    }
-
-    const { languageName, intro, courses } = languageData;
-
-    console.log("Language Data from Firestore:", languageData);
-    console.log("Intro object from languageData:", intro);
-    if (intro) {
-        console.log("intro.testLink:", intro.testLink);
-        console.log("intro.testButtonText:", intro.testButtonText);
-    }
-
-    // Преобразуем объект courses в массив, чтобы удобно итерироваться
-    // Сортировка необязательна, но может быть полезна, если порядок важен
-    // и не гарантируется Firestore (например, по уровню сложности A1->C2)
-    const courseList = courses ? Object.values(courses) : [];
-    // Можно добавить сортировку, если нужно, например, по названию или специальному полю order
-
-    if (courseList.length > 0 && courseList[0].hasOwnProperty('levelOrder')) {
-        courseList.sort((a, b) => (a.levelOrder || 0) - (b.levelOrder || 0));
-    }
+    if (loading) return <Loader />;
+    if (error) return <div>{error}</div>;
 
     return (
         <main className="language-course-page-main">
             <div className="container">
-                <Link to="/studying" className="back-link">← Назад до вибору мови</Link>
-                {intro && (
-                    <CourseIntro
-                        languageName={languageName}
-                        text={intro.text}
-                        image={intro.image}
-                        alt={intro.alt}
-                        buttonText={intro.testButtonText}
-                        testLink={intro.testLink}
-                    />
-                )}
+                <Link to="/studying" className="back-link">{t('studyingPage.backToChoice')}</Link>
+                
+                <CourseIntro
+                    languageName={introDisplay.languageName}
+                    text={introDisplay.text}
+                    image={staticData.image}
+                    alt={introDisplay.alt}
+                    buttonText={introDisplay.buttonText}
+                    testLink={staticData.testLink}
+                />
 
-                {courseList.length > 0 && courseList.map((course, index) => (
+                {courses.length > 0 ? courses.map((course, index) => (
                     <React.Fragment key={course.slug || index}>
                         <hr className="section-divider" />
                         <CourseSection
-                            course={course} // Передаем весь объект курса
-                            languageId={languageId}
-                            // Чередуем layout для визуального разнообразия
+                            course={course}
                             layout={index % 2 === 0 ? 'image-left' : 'image-right'}
                         />
                     </React.Fragment>
-                ))}
-                {courseList.length === 0 && <p>Для цієї мови ще немає доступних курсів.</p>}
+                )) : (
+                    <p>{t('studyingPage.noCourses')}</p>
+                )}
             </div>
         </main>
     );

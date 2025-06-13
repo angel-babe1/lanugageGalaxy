@@ -26,6 +26,7 @@ firebase-debug.*.log*
 .env.test.local
 .env.production
 .env.production.local
+.env.*
 
 # Сборки React (например, от Create React App, Vite)
 /build
@@ -73,6 +74,7 @@ Desktop.ini
 # Другие специфичные для Firebase файлы, которые могут генерироваться локально
 # (обычно они уже игнорируются Firebase CLI, но на всякий случай)
 # .firebase/hosting.*.cache
+firebase.json
 
 # Если используете TypeScript и генерируете .js файлы рядом с .ts
 # *.js
@@ -85,3 +87,5 @@ coverage
 .nyc_output
 
 firebase-scripts/languagegalaxy-f2369-firebase-adminsdk-fbsvc-d2757775b6.json
+
+.env.languagegalaxy-f2369

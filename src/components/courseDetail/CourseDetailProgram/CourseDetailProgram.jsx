@@ -1,8 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import AccordionItem from '../AccordionItem/AccordionItem';
-import './CourseDetailProgram.css'; // Создайте этот CSS
+import './CourseDetailProgram.css';
 
 const CourseDetailProgram = ({ program }) => {
+  const { t } = useTranslation();
+
   if (!program || program.length === 0) {
     return null;
   }
@@ -10,14 +13,14 @@ const CourseDetailProgram = ({ program }) => {
   return (
     <section className="course-detail-section course-program-section">
       <hr className="section-divider-top" />
-      <h2>Програма курсу</h2>
+      <h2>{t('courseDetailsPage.programTitle')}</h2>
       <div className="accordion-container">
         {program.map((module, index) => (
           <AccordionItem
-            key={module.moduleTitle + index} // Убедитесь, что ключ уникален
+            key={module.moduleTitle + index}
             moduleTitle={module.moduleTitle}
             lessons={module.lessons}
-            initiallyOpen={index === 0} // Например, открывать первый модуль по умолчанию
+            initiallyOpen={index === 0}
           />
         ))}
       </div>

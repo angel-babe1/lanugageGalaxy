@@ -8,6 +8,7 @@
 }
 
 .blog-card {
+    width: 100%;
     max-width: 350px;
     display: flex;
     flex-direction: column;
@@ -15,5 +16,7 @@
 }
 
 .blog-card-image {
+    width: 100%;
+    height: auto;
     max-width: 350px;
 }

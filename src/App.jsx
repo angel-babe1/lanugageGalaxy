@@ -16,9 +16,14 @@ import FaqPage from './pages/FaqPage';
 import BlogPostPage from './pages/BlogPostPage';
 import LanguageCoursePage from './pages/LanguageCoursePage';
 import CourseDetailPage from './pages/CourseDetailPage/CourseDetailPage';
-import CartPage from './pages/CourseDetailPage/CartPage/CartPage';
+import CartPage from './pages/CartPage/CartPage';
 import PaymentResultPage from './pages/PaymentResultPage/PaymentResultPage.jsx';
 import LiqPayCheckoutPage from './pages/LiqPayCheckoutPage/LiqPayCheckoutPage.jsx';
+
+import JapaneseFlashcardsGame from './pages/games/JapaneseFlashcardsGame/JapaneseFlashcardsGame.jsx';
+import KoreanMemoryGame from './pages/games/KoreanMemoryGame/KoreanMemoryGame.jsx';
+import ChineseSentenceGame from './pages/games/ChineseSentenceGame/ChineseSentenceGame.jsx';
+import EnglishQuizGame from './pages/games/EnglishQuizGame/EnglishQuizGame.jsx';
 
 import Header from './components/layout/Header/Header';
 import Footer from './components/layout/Footer/Footer';
@@ -34,10 +39,14 @@ function App() {
           <Route path='/about' element={<AboutPage />} />
           <Route path='/studying' element={<StudyingPage />} />
           <Route path='/studying/:languageId' element={<LanguageCoursePage />} />
-          <Route path='/courses/:languageId/:courseSlug' element={<CourseDetailPage />} />
+          <Route path='/courses/:courseSlug' element={<CourseDetailPage />} />
           <Route path='/blog' element={<BlogPage />} />
           <Route path="/blog/:postSlug" element={<BlogPostPage />} />
           <Route path='/games' element={<GamesPage />} />
+          <Route path="/games/japanese-flashcards" element={<JapaneseFlashcardsGame />} />
+          <Route path="/games/korean-memory-match" element={<KoreanMemoryGame />} />
+          <Route path="/games/chinese-sentence-builder" element={<ChineseSentenceGame />} />
+           <Route path="/games/english-quiz" element={<EnglishQuizGame />} />
           <Route path='/contacts' element={<ContactsPage />} />
           <Route path='/teachers' element={<TeachersPage />} />
           <Route path='/registrate' element={<SignUpPage />} />
@@ -47,7 +56,6 @@ function App() {
           <Route path='/cart' element={<CartPage />} />
           <Route path='/payment-result' element={<PaymentResultPage />} />
           <Route path='/checkout/liqpay' element={<LiqPayCheckoutPage />} />
-          {/* <Route path='/cart' element={<Cart />} /> */}
         </Routes>
       </main>
       <Footer />

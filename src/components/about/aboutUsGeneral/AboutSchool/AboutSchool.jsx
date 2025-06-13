@@ -1,29 +1,35 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import './AboutSchool.css';
 
 import aboutPic1 from '../../../../assets/images/about-pic1.png';
 import aboutPic2 from '../../../../assets/images/about-pic2.jpg';
 
 function AboutSchool() {
+    const { t } = useTranslation();
+
+    const paragraphs = t('aboutPage.schoolInfo.paragraphs', { returnObjects: true });
+    const listItems = t('aboutPage.schoolInfo.howWeTeachList', { returnObjects: true });
+
     return (
         <section className="container about-school-container">
-            <h2 className="about-school-title">Про нас</h2>
+            <h2 className="about-school-title">{t('aboutPage.schoolInfo.title')}</h2>
             <div className="about-intro-content">
                 <div className="about-intro-pictures">
-                    <img src={aboutPic1} alt="aboutPic1" className="about-intro-image about-intro-image-top"/>
-                    <img src={aboutPic2} alt="aboutPic2" className="about-intro-image about-intro-bottom"/>
+                    <img src={aboutPic1} alt={t('aboutPage.schoolInfo.image1Alt')} className="about-intro-image about-intro-image-top" />
+                    <img src={aboutPic2} alt={t('aboutPage.schoolInfo.image2Alt')} className="about-intro-image about-intro-bottom" />
                 </div>
                 <div className="about-intro-text">
-                    <p>Привіт, ми - Language Galaxy і ми раді вітати тебе на нашій сторінці. Школа була заснована в 2021 році. </p>
-                    <p>Наша школа иностранных языков ― это пространство, где язык становится частью жизни, а не просто учебным предметом. Мы объединили методики Кембриджского университета, коммуникативный подход и современные digital‑инструменты, чтобы каждое занятие было динамичным, практичным и увлекательным.</p>
-                    <p>Мова — це ключ до нових людей і культур. Тому ми створили теплу спільноту, де можна помилятися, жартувати й радіти першим успіхам. Уже після трьох занять відчуваєте: «Ого, я справді можу говорити!»</p>
-                    <h4>Як ми навчаємо?</h4>
+                    {Array.isArray(paragraphs) && paragraphs.map((text, index) => (
+                        <p key={index}>{text}</p>
+                    ))}
+
+                    <h4>{t('aboutPage.schoolInfo.howWeTeachTitle')}</h4>
+
                     <ul>
-                        <li>Комунікація на першому місці. Говоримо з першого заняття; граматичні правила «підтягуються» органічно.</li>
-                        <li>Проєкти замість контрольних. Записуєте подкаст, створюєте тревел‑блог чи готуєте пітч‑дек — усе мовою, яку вивчаєте.</li>
-                        <li>Індивідуальна дорожня карта. Щомісяця отримуєте звіт про прогрес і план на наступні 4 тижні.
-                        </li>
-                        <li>Soft deadlines. Пропустили дедлайн? Система нагадає й допоможе надолужити без стресу.</li>
+                        {Array.isArray(listItems) && listItems.map((item, index) => (
+                            <li key={index}>{item}</li>
+                        ))}
                     </ul>
                 </div>
             </div>

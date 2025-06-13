@@ -1,3 +1,5 @@
+// src/content/CartContext.jsx
+
 import React, { createContext, useState, useContext, useEffect, useCallback } from "react";
 import { useAuth } from "./AuthContext";
 import { db } from "../firebase";
@@ -12,6 +14,7 @@ export const CartProvider = ({ children }) => {
     const [loadingCart, setLoadingCart] = useState(true);
     const { currentUser, loadingAuthState } = useAuth();
 
+    // Функція збереження кошика (без змін)
     const saveCart = useCallback(async (uid, items) => {
         if (!uid) {
             localStorage.setItem(LOCAL_STORAGE_CART_KEY, JSON.stringify(items));
@@ -28,95 +31,64 @@ export const CartProvider = ({ children }) => {
         }
     }, []);
 
-    const loadCart = useCallback(async () => {
+    // Нова функція, яка завантажує і об'єднує кошики
+    const loadCartAndMerge = useCallback(async (user) => {
         setLoadingCart(true);
         try {
-            if (currentUser) {
-                // Загрузка из Firestore
-                const docSnap = await getDoc(doc(db, 'userCarts', currentUser.uid));
-                if (docSnap.exists()) {
-                    setCartItems(docSnap.data().items || []);
-                } else {
-                    // Если корзины нет - создаем пустую
-                    await saveCart(currentUser.uid, []);
+            // 1. Завжди зчитуємо локальний кошик
+            const localCartRaw = localStorage.getItem(LOCAL_STORAGE_CART_KEY);
+            const localItems = localCartRaw ? JSON.parse(localCartRaw) : [];
+
+            if (user) {
+                // Користувач залогінений, починаємо процес об'єднання
+                const docRef = doc(db, 'userCarts', user.uid);
+                const docSnap = await getDoc(docRef);
+                const firestoreItems = docSnap.exists() ? docSnap.data().items || [] : [];
+
+                // 2. Логіка об'єднання
+                const mergedItems = [...firestoreItems];
+                if (localItems.length > 0) {
+                    localItems.forEach(localItem => {
+                        const existingIndex = mergedItems.findIndex(
+                            item => item.slug === localItem.slug && item.language === localItem.language
+                        );
+                        if (existingIndex !== -1) {
+                            // Якщо товар вже є, додаємо кількість
+                            mergedItems[existingIndex].quantity += localItem.quantity;
+                        } else {
+                            // Якщо товару немає, просто додаємо його
+                            mergedItems.push(localItem);
+                        }
+                    });
+                    
+                    // 3. Зберігаємо об'єднаний кошик у Firestore і очищуємо локальний
+                    await saveCart(user.uid, mergedItems);
+                    localStorage.removeItem(LOCAL_STORAGE_CART_KEY);
+                    console.log("Local cart merged into Firestore cart.");
                 }
+                
+                setCartItems(mergedItems);
+
             } else {
-                // Загрузка из localStorage
-                const localCart = localStorage.getItem(LOCAL_STORAGE_CART_KEY);
-                setCartItems(localCart ? JSON.parse(localCart) : []);
+                // Користувач не залогінений, просто завантажуємо локальний кошик
+                setCartItems(localItems);
             }
         } catch (error) {
-            console.error("Ошибка загрузки корзины:", error);
+            console.error("Помилка завантаження/об'єднання кошика:", error);
             setCartItems([]);
         } finally {
             setLoadingCart(false);
         }
-    }, [currentUser, saveCart]);
+    }, [saveCart]); // Залежність тільки від saveCart
 
-    // Создаем документ корзины при первом входе пользователя
-    // const initializeUserCart = useCallback(async (uid) => {
-    //     const cartDocRef = doc(db, 'userCarts', uid);
-    //     try {
-    //         const docSnap = await getDoc(cartDocRef);
-    //         if (!docSnap.exists()) {
-    //             await setDoc(cartDocRef, {
-    //                 items: [],
-    //                 createdAt: serverTimestamp(),
-    //                 updatedAt: serverTimestamp()
-    //             });
-    //             console.log("New cart created for user:", uid);
-    //         }
-    //     } catch (error) {
-    //         console.error("Error initializing user cart:", error);
-    //     }
-    // }, []);
-
-    // const saveCartToFirestore = useCallback(async (uid, items) => {
-    //     if (!uid) return;
-    //     const cartDocRef = doc(db, 'userCarts', uid);
-    //     try {
-    //         await setDoc(cartDocRef, {
-    //             items,
-    //             updatedAt: serverTimestamp()
-    //         }, { merge: true });
-    //     } catch (error) {
-    //         console.error("Error saving cart:", error);
-    //     }
-    // }, []);
-
-    // const loadCart = useCallback(async (user) => {
-    //     setLoadingCart(true);
-    //     try {
-    //         if (user) {
-    //             // Для авторизованного пользователя
-    //             await initializeUserCart(user.uid);
-    //             const cartDocRef = doc(db, 'userCarts', user.uid);
-    //             const docSnap = await getDoc(cartDocRef);
-                
-    //             if (docSnap.exists()) {
-    //                 setCartItems(docSnap.data().items || []);
-    //             }
-    //         } else {
-    //             // Для анонимного пользователя
-    //             const localCart = localStorage.getItem(LOCAL_STORAGE_CART_KEY);
-    //             setCartItems(localCart ? JSON.parse(localCart) : []);
-    //         }
-    //     } catch (error) {
-    //         console.error("Error loading cart:", error);
-    //         setCartItems([]);
-    //     } finally {
-    //         setLoadingCart(false);
-    //     }
-    // }, [initializeUserCart]);
-
-    // Загрузка корзины при изменении пользователя
+    // Цей useEffect викликає об'єднання при зміні статусу користувача
     useEffect(() => {
         if (!loadingAuthState) {
-            loadCart();
+            loadCartAndMerge(currentUser);
         }
-    }, [loadingAuthState, loadCart]);
+    }, [loadingAuthState, currentUser, loadCartAndMerge]);
 
-    // Сохранение корзины при изменениях
+    // Цей useEffect зберігає кошик при його зміні
     useEffect(() => {
         if (loadingCart || loadingAuthState) return;
 
@@ -159,6 +131,7 @@ export const CartProvider = ({ children }) => {
 
    const clearCart = useCallback(async () => {
         setCartItems([]);
+        // Очищуємо і в Firestore, і в localStorage для надійності
         if (currentUser) {
             await saveCart(currentUser.uid, []);
         } else {
@@ -167,25 +140,26 @@ export const CartProvider = ({ children }) => {
     }, [currentUser, saveCart]);
 
     const getCartTotal = () => cartItems.reduce(
-        (total, item) => total + (parseFloat(item.price) * item.quantity), 0
+        (total, item) => total + (parseFloat(String(item.price).replace(/[^0-9.]/g, '')) * item.quantity), 0
     );
 
     const getTotalItems = () => cartItems.reduce(
         (total, item) => total + item.quantity, 0
     );
 
+    const value = {
+        cartItems,
+        loadingCart,
+        addItemToCart,
+        removeItemFromCart,
+        updateItemQuantity,
+        clearCart,
+        getTotalItems,
+        getCartTotal
+    };
+
     return (
-        <CartContext.Provider value={{
-            cartItems,
-            loadingCart,
-            addItemToCart,
-            removeItemFromCart,
-            updateItemQuantity,
-            clearCart,
-            getTotalItems: () => cartItems.reduce((total, item) => total + item.quantity, 0),
-            getCartTotal: () => cartItems.reduce((total, item) => 
-                total + (parseFloat(item.price) * item.quantity), 0)
-        }}>
+        <CartContext.Provider value={value}>
             {children}
         </CartContext.Provider>
     );

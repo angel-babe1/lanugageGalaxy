@@ -6,7 +6,7 @@ import '../components/forms/SignUpForm/SignUpForm.css';
 
 function SignUpPage() {
     return (
-            <div className="auth-page-container"> {/* Общий класс для страниц Auth */}
+            <div className="auth-page-container"> 
                 <h1 className="page-title">Language Galaxy</h1>
                 <SignUpForm />
                 <div className="alternative-action">

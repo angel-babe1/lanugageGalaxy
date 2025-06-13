@@ -1,0 +1,86 @@
+.game-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.game-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(59, 54, 99, 0.07);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+/* Раскомментируйте, когда игры будут готовы и ссылка станет активной */
+.game-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(59, 54, 99, 0.12);
+}
+
+.game-card-image-placeholder {
+    width: 100%;
+    /* aspect-ratio: 16 / 9; */
+    height: 200px;
+    background-color: #f5f7fa;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-fallback-text {
+    color: #a0a0c0;
+    font-weight: 500;
+}
+
+.game-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.game-card-link:hover .game-card-image {
+    transform: scale(1.05);
+}
+
+.game-card-language-tag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: rgba(59, 54, 99, 0.8);
+    color: #fff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    backdrop-filter: blur(5px);
+}
+
+.game-card-content {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.game-card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #3B3663;
+    margin: 0 0 0.75rem 0;
+}
+
+.game-card-description {
+    font-size: 0.95rem;
+    color: #6a6a8a;
+    line-height: 1.6;
+    margin: 0;
+    flex-grow: 1;
+}

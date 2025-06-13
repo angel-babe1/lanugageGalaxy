@@ -1,69 +1,85 @@
 .studying-benefits-section {
-    background-color: #FCFBFB;
-    /* padding: 3rem 1rem; */
     position: relative;
-    margin-bottom: 50px;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
 }
 
 .studying-benefits-title {
     text-align: center;
     font-size: 1.8rem;
     color: black;
-    /* margin-bottom: 4rem; */
+    margin-bottom: 2rem;
     font-weight: bold;
 }
 
 .benefits-layout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
     position: relative;
-    /* max-width: 1200px; */
-    margin: 0 auto;
-    min-height: 900px;
-    overflow: hidden;
 }
 
 .benefit-background-img {
-    position: absolute;
-    z-index: 1;
-}
-
-.benefit-alien-img {
-    top: 15%;
-    left: 18%;
-}
-
-.benefit-ufo-img {
-    top: 40%;
-    left: 65%;
-    width: 300px;
-    transform: rotate(23deg);
-}
-
-.benefit-logo-text-img {
-    top: 75%;
-    left: 15%;
+    display: none;
 }
 
 .benefit-card-wrapper {
-    position: absolute;
+    position: static;
+    width: 90%;
+    max-width: 400px;
     z-index: 10;
-    width: 35%;
-    /* max-width: 350px; */
 }
 
-.benefit-card-1 {
-    top: 10%;
-    right: 12%;
-    /* transform: rotate(5deg); */
-}
+@media (min-width: 1200px) {
+    .benefits-layout-container {
+        display: block;
+        min-height: 900px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
 
-.benefit-card-2 {
-    top: 40%;
-    left: 10%;
-    /* transform: rotate(-8deg); */
-}
+    .benefit-background-img {
+        display: block;
+        position: absolute;
+        z-index: 1;
+    }
 
-.benefit-card-3 {
-    top: 70%;
-    right: 15%;
-    /* transform: rotate(3deg); */
+    .benefit-card-wrapper {
+        position: absolute;
+        width: 35%;
+        max-width: none;
+    }
+
+    .benefit-alien-img {
+        top: 15%;
+        left: 18%;
+    }
+
+    .benefit-ufo-img {
+        top: 40%;
+        left: 65%;
+        width: 300px;
+        transform: rotate(23deg);
+    }
+
+    .benefit-logo-text-img {
+        top: 75%;
+        left: 15%;
+    }
+
+    .benefit-card-1 {
+        top: 10%;
+        right: 12%;
+    }
+
+    .benefit-card-2 {
+        top: 40%;
+        left: 10%;
+    }
+
+    .benefit-card-3 {
+        top: 70%;
+        right: 15%;
+    }
 }

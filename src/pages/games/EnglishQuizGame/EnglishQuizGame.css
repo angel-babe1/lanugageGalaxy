@@ -1,0 +1,123 @@
+.quiz-game-bg {
+    background-color: #f8f7ff;
+}
+
+.quiz-container {
+    max-width: 700px;
+}
+
+.quiz-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.quiz-title {
+     margin-bottom: 0.5rem;
+}
+
+.quiz-progress {
+    font-size: 1.1rem;
+    color: #6a6a8a;
+    font-weight: 500;
+}
+
+.quiz-card {
+    background-color: #fff;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+}
+
+.question-text {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #3B3663;
+    margin: 0 0 2.5rem 0;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.options-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.option-button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    text-align: left;
+    background-color: #f5f7fa;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option-button:not(:disabled):hover {
+    border-color: #a0a0c0;
+    background-color: #e9eaf0;
+}
+
+.option-button.selected {
+    border-color: #4a90e2;
+    background-color: #e9f2fc;
+    font-weight: bold;
+}
+
+.option-button.correct {
+    border-color: #7ed321;
+    background-color: #e8f9e8;
+    color: #2b8c2b;
+    font-weight: bold;
+}
+
+.option-button.incorrect {
+    border-color: #d0021b;
+    background-color: #fde8ea;
+    color: #d0021b;
+    font-weight: bold;
+}
+
+.option-button:disabled {
+    cursor: not-allowed;
+}
+
+.quiz-controls {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.next-button {
+    background-color: #7ed321;
+    color: white;
+    border: none;
+    padding: 0.8rem 2.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.next-button:hover {
+    background-color: #6ac40a;
+}
+
+/* Стили для .check-button можно переиспользовать */
+
+.quiz-results {
+    background-color: white;
+    padding: 3rem 4rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.final-score {
+    font-size: 1.5rem;
+    margin: 1rem 0 2rem 0;
+    color: #3B3663;
+    font-weight: 500;
+}

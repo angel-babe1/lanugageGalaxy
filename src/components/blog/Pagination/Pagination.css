@@ -1,33 +1,29 @@
-/* src/components/blog/Pagination/Pagination.css */
-
 .pagination-container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    /* Позволяем переноситься на мобильных */
-    gap: 0.8rem;
-    /* Расстояние между элементами */
+    gap: 0.5rem;
     margin: 3rem 0 2rem;
-    /* Отступ сверху */
     padding: 1rem 0;
 }
 
 .page-numbers {
     display: flex;
     gap: 0.5rem;
-    /* Расстояние между номерами страниц */
 }
 
 .pagination-button {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
     min-width: 40px;
-    /* Минимальная ширина для квадратности */
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     border: 1px solid #ddd;
     background-color: #fff;
     color: #3B3663;
-    /* Основной цвет */
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9rem;
@@ -36,23 +32,17 @@
 
 .pagination-button:not(:disabled):hover {
     background-color: #f5f1fe;
-    /* Легкий фон при наведении */
     border-color: #c0bcdc;
 }
 
-/* Стиль для активного номера страницы */
 .pagination-button.active {
     background-color: #3B3663;
-    /* Основной цвет фона */
     color: #fff;
-    /* Белый текст */
     border-color: #3B3663;
     font-weight: bold;
     cursor: default;
-    /* Не кликабельна */
 }
 
-/* Стиль для отключенных кнопок (Назад/Вперед) */
 .pagination-button:disabled {
     background-color: #f8f8f8;
     color: #aaa;
@@ -61,6 +51,12 @@
 }
 
 .prev-next {
-    /* Можно добавить немного другие стили для кнопок Назад/Вперед */
     font-weight: 500;
+    padding: 0.5rem 1rem;
+}
+
+@media (min-width: 768px) {
+    .pagination-container {
+        gap: 0.8rem;
+    }
 }

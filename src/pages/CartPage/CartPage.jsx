@@ -1,18 +1,27 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "../../../content/CartContext";
-import CartItem from "../../../components/cart/CartItem/CartItem";
-import { useAuth } from "../../../content/AuthContext";
-import { db } from "../../../firebase";
+import { Link, useNavigate, useLocation} from "react-router-dom";
+import { useCart } from "../../content/CartContext";
+import { useAuth } from "../../content/AuthContext";
+import { db } from "../../firebase";
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import CartItem from "../../components/cart/CartItem/CartItem";
 import './CartPage.css';
 
 const CartPage = () => {
+    console.log("[CartPage] Component RENDERED");
     const { cartItems, getCartTotal } = useCart();
     const navigate = useNavigate();
+    const location = useLocation();
     const { currentUser } = useAuth();
 
     const handlePurchase = async () => {
+        console.log("[CartPage] handlePurchase called");
+        if (!currentUser) {
+            alert("Будь ласка, увійдіть або зареєструйтесь, щоб продовжити оформлення замовлення.");
+            navigate('/registrate', { state: { from: location } });
+            return;
+        }
+
         const totalAmount = getCartTotal();
 
         if (totalAmount <= 0) {
@@ -22,48 +31,49 @@ const CartPage = () => {
 
         const description = `оплата заказа из ${cartItems.length} позиций на сайте`;
         const orderId = `YAS_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+        console.log("[CartPage] Generated orderId:", orderId);
 
         const orderFirestoreData = {
-            orderId: orderId, // Можно дублировать ID документа для удобства запросов
-            userId: currentUser ? currentUser.uid : null, // ID пользователя, если он авторизован
-            userEmail: currentUser ? currentUser.email : null, // Email пользователя для уведомлений
-            items: cartItems.map(item => ({ // Сохраняем детали товаров в заказе
+            orderId: orderId, 
+            userId: currentUser.uid, 
+            userEmail: currentUser.email, 
+            items: cartItems.map(item => ({ 
                 slug: item.slug,
                 language: item.language,
                 title: item.title,
                 quantity: item.quantity,
-                price: parseFloat(item.price), // Убедимся, что цена это число
-                coverImage: item.coverImage || null, // Добавим изображение для удобства
+                price: parseFloat(item.price), 
+                coverImage: item.coverImage || null, 
             })),
-            totalAmount: parseFloat(totalAmount.toFixed(2)), // Общая сумма заказа
-            currency: "UAH", // Валюта
-            status: "pending_payment", // Начальный статус заказа
-            paymentMethod: "liqpay", // Метод оплаты
-            createdAt: serverTimestamp(), // Время создания заказа (серверное время)
-            updatedAt: serverTimestamp(), // Время последнего обновления (серверное время)
-            // Можно добавить и другие поля, если они нужны (например, информация о доставке, если применимо)
+            totalAmount: parseFloat(totalAmount.toFixed(2)), 
+            currency: "UAH", 
+            status: "pending_payment", 
+            paymentMethod: "liqpay", 
+            createdAt: serverTimestamp(), 
+            updatedAt: serverTimestamp(), 
         };
+        console.log("[CartPage] orderFirestoreData prepared:", orderFirestoreData);
 
-       try {
-            // 7. Сохраняем заказ в Firestore
-            // Создаем ссылку на документ с именем, равным orderId, в коллекции 'orders'
-            const orderDocRef = doc(db, "orders", orderId);
+        try {
+            const orderDocRef = doc(db, "orders", orderId); 
+            console.log("[CartPage] orderDocRef created for Firestore.");
             await setDoc(orderDocRef, orderFirestoreData);
             console.log("Заказ успешно создан в Firestore с ID:", orderId);
 
-            // 8. Формируем данные для передачи на страницу LiqPay Checkout
             const orderDataForCheckout = {
                 amount: totalAmount,
                 description: description,
-                orderId: orderId, // Используем тот же orderId, что и для документа Firestore
+                orderId: orderId,
             };
 
-            // 9. Перенаправляем на страницу оплаты
+            localStorage.setItem('processingOrderId', orderId);
+            console.log("[CartPage] Saved orderId to localStorage:", orderId);
+
+            console.log("[CartPage] Перед вызовом navigate на /checkout/liqpay. State:", { state: { orderData: orderDataForCheckout } });
             navigate('/checkout/liqpay', { state: { orderData: orderDataForCheckout } });
 
         } catch (error) {
-            console.error("Ошибка при создании заказа в Firestore или перенаправлении:", error);
-            // Здесь можно показать пользователю более дружелюбное сообщение об ошибке
+            console.error("[CartPage] Ошибка при создании заказа в Firestore или перенаправлении:", error);            // Здесь можно показать пользователю более дружелюбное сообщение об ошибке
             alert("Произошла ошибка при оформлении заказа. Пожалуйста, попробуйте еще раз. Если проблема повторится, свяжитесь с поддержкой.");
         }
     };

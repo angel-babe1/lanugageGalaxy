@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import FeatureCard from '../FeatureCard/FeatureCard';
 import featuresData from '../../../data/features.json';
 import './FeaturesCarousel.css';
@@ -18,9 +19,23 @@ function getImageUrl(filename) {
 };
 
 function FeaturesCarousel() {
+  const { t, i18n } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsToShow = 3; 
-  const slideWidthPercentage = 100 / itemsToShow; 
+  const itemsToShow = 3;
+  const slideWidthPercentage = 100 / itemsToShow;
+
+  const translatedCards = t('featuresSection.cards', { returnObjects: true });
+
+  const mergedFeaturesData = useMemo(() => {
+    return featuresData.map(feature => {
+      const translatedFeature = translatedCards.find(tFeature => tFeature.id === feature.id) || {};
+      return {
+        ...feature,
+        ...translatedFeature,
+      };
+    });
+  }, [i18n.language]);
+
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
@@ -29,14 +44,14 @@ function FeaturesCarousel() {
   };
 
   const handleNext = () => {
-    const lastPossibleIndex = Math.max(0, featuresData.length - itemsToShow);
+    const lastPossibleIndex = Math.max(0, mergedFeaturesData.length - itemsToShow);
     setCurrentIndex((prevIndex) =>
       prevIndex >= lastPossibleIndex ? lastPossibleIndex : prevIndex + 1
     );
   };
 
   const goToSlide = (index) => {
-    const lastPossibleIndex = Math.max(0, featuresData.length - itemsToShow);
+    const lastPossibleIndex = Math.max(0, mergedFeaturesData.length - itemsToShow);
     setCurrentIndex(Math.min(index, lastPossibleIndex));
   };
 
@@ -44,18 +59,18 @@ function FeaturesCarousel() {
     return currentIndex * slideWidthPercentage;
   }, [currentIndex, slideWidthPercentage]);
 
-  const lastPossibleIndex = Math.max(0, featuresData.length - itemsToShow);
+  const lastPossibleIndex = Math.max(0, mergedFeaturesData.length - itemsToShow);
 
   const numberOfDots = lastPossibleIndex + 1;
 
   return (
     <section className="features-section">
-      <h2 className='carousel-title'>What we can offer</h2>
-      <div className="carousel"> 
+      <h2 className='carousel-title'>{t('featuresSection.title')}</h2>
+      <div className="carousel">
         <button
           onClick={handlePrev}
           className='featuresCarousel-arrow arrow-left'
-          disabled={currentIndex === 0} 
+          disabled={currentIndex === 0}
         >
           ←
         </button>
@@ -64,10 +79,10 @@ function FeaturesCarousel() {
             className="carousel-track"
             style={{ transform: `translateX(-${translateXValue}%)` }}
           >
-            {featuresData.map((feature) => (
+            {mergedFeaturesData.map((feature) => (
               <div className="carousel-slide" key={feature.id}>
                 <FeatureCard
-                  imageSrc={getImageUrl(feature.image)} 
+                  imageSrc={getImageUrl(feature.image)}
                   imageAlt={feature.alt}
                   description={feature.description}
                 />
@@ -88,13 +103,14 @@ function FeaturesCarousel() {
         {Array.from({ length: numberOfDots }).map((_, index) => {
           const isActive = index === currentIndex;
           const dotClasses = `featuresCarousel-dot ${isActive ? 'active' : ''}`;
+          const ariaLabel = mergedFeaturesData[index] ? mergedFeaturesData[index].alt : `Go to slide ${index + 1}`;
 
           return (
             <button
               key={index}
               onClick={() => goToSlide(index)}
               className={dotClasses}
-              aria-label={`Go to view starting with item ${index + 1}`}
+              aria-label={ariaLabel}
             />
           )
         })}

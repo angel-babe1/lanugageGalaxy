@@ -1,29 +1,37 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../content/AuthContext';
 import { useCart } from '../../../content/CartContext';
-import './Header.css';
-
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../../common/LanguageSwitcher/LanguageSwitcher';
 import logo from '../../../assets/images/logo.svg';
 import cart from '../../../assets/images/cart.svg';
-import language from '../../../assets/images/ua.svg';
-// import CartItem from '../../cart/CartItem/CartItem';
+import './Header.css';
 
 function Header() {
+    const { t } = useTranslation();
     const { currentUser, logout, loadingAuthState } = useAuth();
-    const { cartItems, getTotalItems, clearCart} = useCart();
+    const { getTotalItems } = useCart();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(false);
     const [isStudyingMenuOpen, setIsStudyingMenuOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+    }, [location]);
+
+    useEffect(() => {
+        document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'unset';
+        return () => { document.body.style.overflow = 'unset'; };
+    }, [isMobileMenuOpen]);
 
     const handleLogout = async () => {
         try {
-            // if (currentUser) {
-            //     await clearCart();                
-            // }
             await logout();
-            navigate('/signin'); // Редирект на страницу входа после выхода
+            navigate('/signin');
         } catch (error) {
             console.error("Failed to log out", error);
         }
@@ -47,59 +55,56 @@ function Header() {
     return (
         <header className='header'>
             <div className="container">
-                <nav className="header-nav">
+                <nav className={`header-nav ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
                     <div className='logo'>
-                        <Link to='/'><img src={logo} alt="logo" /></Link>
+                        <Link to='/'><img src={logo} alt={t('footer.logoAlt')} /></Link>
                         <Link to="/">Language Galaxy</Link>
                     </div>
-                    <div className='menu'>
+
+                    <div className="menu">
                         <ul>
                             <li
-                                onMouseEnter={() => setIsAboutMenuOpen(true)}
-                                onMouseLeave={() => setIsAboutMenuOpen(false)}
+                                onMouseEnter={() => !isMobileMenuOpen && setIsAboutMenuOpen(true)}
+                                onMouseLeave={() => !isMobileMenuOpen && setIsAboutMenuOpen(false)}
+                                onClick={() => isMobileMenuOpen && setIsAboutMenuOpen(!isAboutMenuOpen)}
                             >
-                                <Link to="/about">Про нас</Link>
-                                {isAboutMenuOpen && (
+                                <Link to="/about">{t('header.about')}</Link>
+                                {(isAboutMenuOpen || isMobileMenuOpen) && (
                                     <div className="submenu">
-                                        <Link to="/teachers">Учителя</Link>
-                                        <Link to="/reviews">Отзывы</Link>
-                                        <Link to="/faq">FAQ</Link>
+                                        <Link to="/teachers">{t('header.submenu.teachers')}</Link>
+                                        <Link to="/reviews">{t('header.submenu.reviews')}</Link>
+                                        <Link to="/faq">{t('header.submenu.faq')}</Link>
                                     </div>
                                 )}
                             </li>
                             <li
-                                onMouseEnter={() => setIsStudyingMenuOpen(true)}
-                                onMouseLeave={() => setIsStudyingMenuOpen(false)}
+                                onMouseEnter={() => !isMobileMenuOpen && setIsStudyingMenuOpen(true)}
+                                onMouseLeave={() => !isMobileMenuOpen && setIsStudyingMenuOpen(false)}
+                                onClick={() => isMobileMenuOpen && setIsStudyingMenuOpen(!isStudyingMenuOpen)}
                             >
-                                <Link to="/studying">Навчання</Link>
-                                {isStudyingMenuOpen && (
+                                <Link to="/studying">{t('header.courses')}</Link>
+                                {(isStudyingMenuOpen || isMobileMenuOpen) && (
                                     <div className="submenu">
-                                        <Link to="/studying/en">Англійська</Link>
-                                        <Link to="/studying/zh">Китайська</Link>
-                                        <Link to="/studying/ko">Корейська</Link>
-                                        <Link to="/studying/ja">Японська</Link>
+                                        <Link to="/studying/en">{t('header.submenu.english')}</Link>
+                                        <Link to="/studying/zh">{t('header.submenu.chinese')}</Link>
+                                        <Link to="/studying/ko">{t('header.submenu.korean')}</Link>
+                                        <Link to="/studying/ja">{t('header.submenu.japanese')}</Link>
                                     </div>
                                 )}
                             </li>
-                            <li><Link to="/blog">Блог</Link></li>
-                            <li><Link to="/games">Ігри</Link></li>
-                            <li><Link to="/contacts">Контакти</Link></li>
+                            <li><Link to="/blog">{t('header.blog')}</Link></li>
+                            <li><Link to="/games">{t('header.games')}</Link></li>
+                            <li><Link to="/contacts">{t('header.contact')}</Link></li>
                         </ul>
                     </div>
+
                     <div className="menu-actions">
                         {currentUser ? (
-                            <>
-                                {/* <span className='user-greeting'>
-                                    Hi, {currentUser.displayName || currentUser.email}!
-                                </span> */}
-                                <button onClick={handleLogout} className='auth-button logout-button'>
-                                    Sign Out
-                                </button>
-                            </>
+                            <button onClick={handleLogout} className='auth-button logout-button'>
+                                {t('header.signOut')}
+                            </button>
                         ) : (
-                            <>
-                                <Link to='/registrate' className='auth-button signup-button'>Sign Up</Link>
-                            </>
+                            <Link to='/registrate' className='auth-button signup-button'>{t('header.signUp')}</Link>
                         )}
                         <div className="cart">
                             <Link to="/cart" className='cart-link-header'>
@@ -108,19 +113,19 @@ function Header() {
                                     <span className='cart-count-badge'>{totalCartItems}</span>
                                 )}
                             </Link>
-
                         </div>
-                        <div className="change-language">
-                            <img src={language} alt="ua" />
-                            <p>ua</p>
-                        </div>
+                        <LanguageSwitcher />
                     </div>
 
+                    <div className="mobile-menu-icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                        <span className="bar"></span>
+                        <span className="bar"></span>
+                        <span className="bar"></span>
+                    </div>
                 </nav>
             </div>
-
         </header>
-    )
+    );
 }
 
 export default Header;

@@ -1,52 +1,17 @@
 import idiomCardImg from '../assets/images/blog/cake-slice.jpg';
+import japanImg from '../assets/images/blog/japanese-culture.jpg';
+import clockPastImg from '../assets/images/blog/clockPastImg.jpg';
+import koreanBowImg from '../assets/images/blog/korean-bow.jpg';
+import chineseImg from '../assets/images/blog/chinese-question.jpg';
 
-const blogPostData = [
-    {
-        id: 'p1',
-        slug: 'idioms-break-a-leg-piece-of-cake',
-        title: "Що насправді означають фрази типу 'Break a leg' та 'Piece of cake'?",
-        cardTitle: "Ідіоми: Break a leg та Piece of cake",
-        description: 'Розбираємо походження та значення популярних англійських ідіом.',
-        category: 'English',
-        image: idiomCardImg
-    },
-    { 
-        id: 'p2', 
-        slug: 'top-10-travel-phrases', 
-        title: 'Топ 10 фраз для подорожей', 
-        description: 'Must-have для туриста', 
-        category: 'English', 
-        image: idiomCardImg 
-    },
-    { 
-        id: 'p3', 
-        slug: 'past-simple-grammar', 
-        title: 'Граматика: Past Simple', 
-        description: 'Просте пояснення', 
-        category: 'English',
-         image: idiomCardImg 
-        },
-    { 
-        id: 'p4', 
-        slug: 'german-articles', 
-        title: 'Німецькі артиклі: Der, Die, Das', 
-        description: 'Як запам\'ятати?', content: `...`, 
-        category: 'German', 
-        image: idiomCardImg 
-    },
-    { 
-        id: 'p5', 
-        slug: 'another-general-tip', 
-        title: 'Ще одна загальна порада', 
-        description: 'Дуже важливо!', 
-        content: `...`, 
-        category: 'General', 
-        image: idiomCardImg 
-    }
+const blogPostsData = [
+    { id: 'p1', slug: 'idioms-break-a-leg-piece-of-cake', categoryKey: 'english', image: idiomCardImg },
+    { id: 'p2', slug: 'japanese-culture', categoryKey: 'japanese', image: japanImg },
+    { id: 'p3', slug: 'past-simple-grammar', categoryKey: 'english', image: clockPastImg },
+    { id: 'p4', slug: 'being-polite-in-korean', categoryKey: 'korean', image: koreanBowImg },
+    { id: 'p5', slug: 'questions-in-chinese', categoryKey: 'chinese', image: chineseImg }
 ];
 
-const allCategories = blogPostData.map(post => post.category);
-const uniqueCategories = new Set(allCategories);
-export const blogCategories = ['All', ...uniqueCategories];
+export const blogCategoriesKeys = ['all', 'english', 'japanese', 'korean', 'chinese'];
 
-export default blogPostData;
+export default blogPostsData;

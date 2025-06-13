@@ -1,0 +1,90 @@
+/* Общие стили для фона и контейнера можно взять из предыдущей игры */
+.memory-game-bg {
+    background-color: #f8f7ff;
+}
+
+.memory-game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    max-width: 800px;
+    margin: 2rem auto;
+    perspective: 1000px; /* Важно для 3D эффекта переворота */
+}
+
+.memory-card {
+    background-color: transparent;
+    height: 120px;
+    cursor: pointer;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.memory-card.is-flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-front {
+    background: linear-gradient(45deg, #4c468a, #3B3663);
+    color: white;
+}
+
+/* Можно добавить узор или лого на рубашку карты */
+.card-front::after {
+    content: '🌌';
+    font-size: 2.5rem;
+}
+
+.card-back {
+    background-color: #fff;
+    color: #3B3663;
+    transform: rotateY(180deg);
+    font-size: 1.2rem;
+    font-weight: 500;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.card-back.matched {
+    background-color: #e8f9e8;
+    border: 2px solid #7ed321;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .memory-game-board {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+    }
+    .card-back {
+        font-size: 1rem;
+    }
+}
+ @media (max-width: 480px) {
+    .memory-game-board {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Стили для статистики и модального окна можно переиспользовать 
+   из JapaneseFlashcardsGame.css, убедившись, что классы не конфликтуют */
