@@ -23,7 +23,7 @@ function IntroSection() {
                     </p>
                     <img src={alien} alt={t('introSection.alienAlt')} className="alien-image" />
                 </div>
-                <FindOutMoreBtn />
+                <FindOutMoreBtn to="/studying"/>
             </div>
         </section>
     )

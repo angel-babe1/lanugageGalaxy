@@ -28,3 +28,13 @@
     max-width: 1200px;
     margin: 3rem auto 0 auto;
 }
+
+@media (max-width: 768px) {
+    .studying-intro-section {
+        flex-direction: column;
+        text-align: center;
+    }
+    .studying-intro-image img {
+        max-width: 250px;
+    }
+}

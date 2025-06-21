@@ -4,3 +4,10 @@
     flex-wrap: wrap;
     gap: 48px;
 }
+
+@media (max-width: 768px) {
+    .language-cards {
+        justify-content: center;
+        gap: 2rem;
+    }
+}

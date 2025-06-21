@@ -9,7 +9,7 @@
     align-items: center;
 }
 
-.icon-circle{
+.icon-circle {
     border: none;
     border-radius: 50%;
     background: none;
@@ -18,4 +18,25 @@
 
 .icon-label {
     margin-top: 16px;
+}
+
+@media (max-width: 768px) {
+    .icon-link {
+        flex-basis: calc(50% - 1rem);
+        max-width: 150px;
+    }
+
+    .icon-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .icon-circle img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .icon-label {
+        font-size: 0.9rem;
+    }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import FeatureCard from '../FeatureCard/FeatureCard';
 import featuresData from '../../../data/features.json';
@@ -8,25 +8,40 @@ const imageModules = import.meta.glob('../../../assets/images/*png', { eager: tr
 
 function getImageUrl(filename) {
   const path = `../../../assets/images/${filename}`;
-
   if (imageModules[path]) {
     return imageModules[path].default;
   }
-  else {
-    console.warn(`Image module not found for filename ${filename} using path key: ${path}. Available keys:`, Object.keys(imageModules));
-    return '';
-  }
-};
+  return '';
+}
 
 function FeaturesCarousel() {
   const { t, i18n } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsToShow = 3;
-  const slideWidthPercentage = 100 / itemsToShow;
+
+  const getItemsToShow = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth < 600) return 1;
+      if (window.innerWidth < 992) return 2;
+    }
+    return 3;
+  };
+
+  const [itemsToShow, setItemsToShow] = useState(getItemsToShow());
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newItemsToShow = getItemsToShow();
+      setItemsToShow(newItemsToShow);
+      setCurrentIndex(0); 
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const translatedCards = t('featuresSection.cards', { returnObjects: true });
 
   const mergedFeaturesData = useMemo(() => {
+    if (!Array.isArray(translatedCards)) return [];
     return featuresData.map(feature => {
       const translatedFeature = translatedCards.find(tFeature => tFeature.id === feature.id) || {};
       return {
@@ -34,33 +49,27 @@ function FeaturesCarousel() {
         ...translatedFeature,
       };
     });
-  }, [i18n.language]);
+  }, [i18n.language, translatedCards]);
 
+  const lastPossibleIndex = Math.max(0, mergedFeaturesData.length - itemsToShow);
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? 0 : prevIndex - 1
-    );
+    setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 1));
   };
 
   const handleNext = () => {
-    const lastPossibleIndex = Math.max(0, mergedFeaturesData.length - itemsToShow);
-    setCurrentIndex((prevIndex) =>
-      prevIndex >= lastPossibleIndex ? lastPossibleIndex : prevIndex + 1
-    );
+    setCurrentIndex((prevIndex) => Math.min(lastPossibleIndex, prevIndex + 1));
   };
-
+  
   const goToSlide = (index) => {
-    const lastPossibleIndex = Math.max(0, mergedFeaturesData.length - itemsToShow);
     setCurrentIndex(Math.min(index, lastPossibleIndex));
   };
 
   const translateXValue = useMemo(() => {
-    return currentIndex * slideWidthPercentage;
-  }, [currentIndex, slideWidthPercentage]);
-
-  const lastPossibleIndex = Math.max(0, mergedFeaturesData.length - itemsToShow);
-
+    const slideWidth = 100 / itemsToShow;
+    return currentIndex * slideWidth;
+  }, [currentIndex, itemsToShow]);
+  
   const numberOfDots = lastPossibleIndex + 1;
 
   return (
@@ -77,7 +86,10 @@ function FeaturesCarousel() {
         <div className="featuresCarousel-window">
           <div
             className="carousel-track"
-            style={{ transform: `translateX(-${translateXValue}%)` }}
+            style={{ 
+                transform: `translateX(-${translateXValue}%)`,
+                '--items-to-show': itemsToShow 
+            }}
           >
             {mergedFeaturesData.map((feature) => (
               <div className="carousel-slide" key={feature.id}>

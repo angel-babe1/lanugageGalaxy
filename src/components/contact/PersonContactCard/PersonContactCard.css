@@ -17,17 +17,13 @@
 .contact-card-photo-container {
     text-align: center;
     flex-shrink: 0;
-    /* width: 200px; */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .contact-card-photo {
-    /* width: 150px; */
-    /* height: 150px; */
     border-radius: 15px;
-    /* object-fit: cover; */
     margin-bottom: 0.8rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -57,7 +53,6 @@
 }
 
 .contact-card-info-container {
-    /* flex-grow: 1; */
     width: 40%;
 }
 
@@ -86,6 +81,16 @@
     transform: scale(1.1);
 }
 
+@media (max-width: 992px) {
+    .contact-card {
+        gap: 3rem;
+    }
+
+    .contact-card-info-container {
+        width: 100%;
+    }
+}
+
 @media (max-width: 768px) {
 
     .contact-card,
@@ -93,14 +98,10 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
+        gap: 1.5rem;
     }
 
     .contact-card-info-container {
-        align-items: center;
         margin-top: 1rem;
-    }
-
-    .contact-card-photo-container {
-        width: auto;
     }
 }

@@ -1,68 +1,63 @@
-/* src/components/courseDetail/ReviewsSection/ReviewsSection.css */
 .course-reviews-section {
-  margin: 3rem 0; /* Отступы для секции */
-  padding: 2rem 0; /* Внутренний отступ сверху и снизу */
-  /* background-color: #f9f9f9; */ /* Можно добавить легкий фон для всей секции */
+  margin: 3rem 0;
+  padding: 2rem 0;
 }
 
 .course-reviews-section h2 {
   text-align: center;
   font-size: 2em;
-  color: #3B3663; /* Темно-фиолетовый, как на вашем образце */
+  color: #3B3663;
   margin-bottom: 2.5rem;
-  font-weight: bold; /* Жирный шрифт */
+  font-weight: bold;
 }
 
 .course-reviews-slider-container {
-  max-width: 1200px; /* Ограничиваем ширину слайдера */
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 50px; /* Небольшие отступы по бокам, чтобы стрелки не прилипали к краям */
+  padding: 0 50px;
 }
 
 .course-review-slide {
-  padding: 0 10px; /* Отступы между слайдами */
-  outline: none; /* Убираем обводку при фокусе */
+  padding: 0 10px;
+  outline: none;
 }
 
 .course-review-slide img {
   width: 100%;
-  height: auto; /* Сохраняем пропорции изображения */
-  max-height: 450px; /* Ограничиваем максимальную высоту скриншота */
-  object-fit: contain; /* Чтобы изображение помещалось целиком */
-  border-radius: 8px; /* Скругление углов для изображений */
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */ /* Легкая тень для изображений */
-  margin: 0 auto; /* Центрирование, если изображение меньше контейнера слайда */
+  height: auto;
+  max-height: 450px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin: 0 auto;
 }
 
-/* Стилизация стандартных стрелок slick (если не используете кастомные) */
 .slick-prev,
 .slick-next {
-  z-index: 1; /* Чтобы были поверх слайдов */
-  width: 40px; /* Ширина стрелки */
-  height: 40px; /* Высота стрелки */
+  z-index: 1;
+  width: 40px;
+  height: 40px;
 }
 
 .slick-prev:before,
 .slick-next:before {
-  font-size: 30px; /* Размер иконки стрелки */
-  color: #3B3663; /* Цвет стрелок */
-  opacity: 0.75; /* Немного прозрачности */
+  font-size: 30px;
+  color: #3B3663;
+  opacity: 0.75;
 }
 
 .slick-prev:hover:before,
 .slick-next:hover:before {
-  opacity: 1; /* Полная непрозрачность при наведении */
+  opacity: 1;
 }
 
 .slick-prev {
-  left: -50px; /* Позиционирование левой стрелки (подберите значение) */
+  left: -50px;
 }
 
 .slick-next {
-  right: -50px; /* Позиционирование правой стрелки (подберите значение) */
+  right: -50px;
 }
 
-/* Стили для кастомных стрелок, если вы их используете */
 .custom-arrow {
   position: absolute;
   top: 50%;
@@ -71,7 +66,7 @@
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  display: flex !important; /* Важно для переопределения стилей slick */
+  display: flex !important;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -79,22 +74,23 @@
   color: #3B3663;
   font-size: 20px;
   border: 1px solid #ddd;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 .custom-arrow:hover {
   background-color: white;
   color: #302b52;
 }
 
 .prev-arrow {
-  left: -20px; /* Или другое значение */
+  left: -20px;
 }
+
 .next-arrow {
-  right: -20px; /* Или другое значение */
+  right: -20px;
 }
 
 
-/* Стили для точек (если dots: true) */
 .slick-dots li button:before {
   font-size: 10px;
   color: #3B3663;
@@ -106,22 +102,19 @@
   color: #3B3663;
 }
 
-/* Линия сверху, если нужна */
 .section-divider-top {
   border: none;
   border-top: 1px solid #e0e0e0;
   margin-bottom: 2rem;
 }
 
-/* Адаптивность для стрелок, если они выходят за пределы на маленьких экранах */
 @media (max-width: 520px) {
-  .slick-prev {
-    left: -25px;
+  .course-reviews-slider-container {
+    padding: 0;
   }
+
+  .slick-prev,
   .slick-next {
-    right: -25px;
-  }
-  .reviews-slider-container {
-    padding: 0 5px; /* Уменьшаем боковые отступы */
+    display: none !important;
   }
 }

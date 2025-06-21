@@ -1,184 +1,172 @@
 .reviews-section {
-    max-width: 1200px; 
-    margin: 0 auto 3rem;
-    padding: 2rem 1rem 5rem 1rem; 
-    overflow: hidden; 
-  }
-  
-  .reviews-title {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #3B3663;
-    font-family: 'Cursive', sans-serif; 
-    margin-bottom: 4rem; 
-  }
-  
-  .reviews-container {
-    position: relative;
-    width: 100%;
-    min-height: 1050px; 
-    margin: 0 auto;
-  }
-  
-  .review-image {
-    position: absolute;
-    max-width: 280px; 
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 6px 6px 18px rgba(0, 0, 0, 0.25);
-    transition: transform 0.3s ease, z-index 0s ease 0.3s;
-    z-index: 1;
-    border: 1px solid rgba(0,0,0,0.1);
-  }
-  
-  .review-image:hover {
-    transform: scale(1.1) rotate(0deg) !important;
-    z-index: 100 !important;
-  }
-  
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  padding: 2rem 1rem 5rem 1rem;
+  overflow: hidden;
+}
 
-  /* 1. Верхний левый */
-  .review1 {
-    top: 2%;
-    left: 8%;
-    transform: rotate(-10deg);
-    z-index: 2;
-    max-width: 260px;
+.reviews-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #3B3663;
+  font-family: 'Cursive', sans-serif;
+  margin-bottom: 4rem;
+}
+
+.reviews-container {
+  position: relative;
+  width: 100%;
+  min-height: 1050px;
+  margin: 0 auto;
+}
+
+.review-image {
+  position: absolute;
+  max-width: 280px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 6px 6px 18px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, z-index 0s ease 0.3s;
+  z-index: 1;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.review-image:hover {
+  transform: scale(1.1) rotate(0deg) !important;
+  z-index: 100 !important;
+}
+
+
+/* 1. Верхний левый */
+.review1 {
+  top: 2%;
+  left: 8%;
+  transform: rotate(-10deg);
+  z-index: 2;
+  max-width: 260px;
+}
+
+/* 2. Верхний центр-левый */
+.review2 {
+  top: 5%;
+  left: 38%;
+  transform: rotate(6deg);
+  z-index: 4;
+  max-width: 290px;
+}
+
+/* 3. Верхний правый */
+.review3 {
+  top: 3%;
+  left: 70%;
+  transform: rotate(12deg);
+  z-index: 3;
+  max-width: 240px;
+}
+
+/* 4. Средний левый */
+.review4 {
+  top: 30%;
+  left: 5%;
+  transform: rotate(-6deg);
+  z-index: 5;
+  max-width: 270px;
+}
+
+/* 5. Центральный */
+.review5 {
+  top: 23%;
+  left: 40%;
+  transform: rotate(2deg);
+  z-index: 7;
+  max-width: 300px;
+}
+
+/* 6. Средний правый */
+.review6 {
+  top: 30%;
+  left: 75%;
+  transform: rotate(-4deg);
+  z-index: 6;
+  max-width: 260px;
+}
+
+/* 7. Ниже среднего, левее */
+.review7 {
+  top: 50%;
+  left: 8%;
+  transform: rotate(9deg);
+  z-index: 1;
+  max-width: 270px;
+}
+
+/* 8. Ниже среднего, правее */
+.review8 {
+  top: 55%;
+  left: 40%;
+  transform: rotate(-7deg);
+  z-index: 3;
+  max-width: 280px;
+}
+
+/* 9. Ниже среднего, самый правый */
+.review9 {
+  top: 50%;
+  left: 65%;
+  transform: rotate(8deg);
+  z-index: 5;
+  max-width: 280px;
+}
+
+/* 10. Нижний левый */
+.review10 {
+  top: 82%;
+  left: 20%;
+  transform: rotate(-3deg);
+  z-index: 2;
+  max-width: 290px;
+}
+
+/* 11. Нижний правый */
+.review11 {
+  top: 60%;
+  left: 70%;
+  transform: rotate(5deg);
+  z-index: 4;
+  max-width: 270px;
+}
+
+
+@media (max-width: 992px) {
+  .reviews-container {
+    position: static;
+    min-height: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
   }
-  
-  /* 2. Верхний центр-левый */
-  .review2 {
-    top: 5%;
-    left: 38%;
-    transform: rotate(6deg);
-    z-index: 4;
-    max-width: 290px;
+
+  .review-image {
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none !important;
+    z-index: auto !important;
+
+    width: 80%;
+    max-width: 350px;
   }
-  
-  /* 3. Верхний правый */
-  .review3 {
-    top: 3%;
-    left: 70%;
-    transform: rotate(12deg);
-    z-index: 3;
-    max-width: 240px;
+
+  .review-image:hover {
+    transform: scale(1.05) !important;
   }
-  
-  /* 4. Средний левый */
-  .review4 {
-    top: 30%;
-    left: 5%;
-    transform: rotate(-6deg);
-    z-index: 5;
-    max-width: 270px;
+}
+
+@media (max-width: 768px) {
+  .reviews-title {
+    font-size: 2rem;
+    margin-bottom: 3rem;
   }
-  
-  /* 5. Центральный */
-  .review5 {
-    top: 23%;
-    left: 40%;
-    transform: rotate(2deg);
-    z-index: 7; 
-    max-width: 300px;
-  }
-  
-  /* 6. Средний правый */
-  .review6 {
-    top: 30%;
-    left: 75%;
-    transform: rotate(-4deg);
-    z-index: 6; 
-    max-width: 260px;
-  }
-  
-  /* 7. Ниже среднего, левее */
-  .review7 {
-    top: 50%;
-    left: 8%;
-    transform: rotate(9deg);
-    z-index: 1;
-    max-width: 270px;
-  }
-  
-  /* 8. Ниже среднего, правее */
-  .review8 {
-    top: 55%;
-    left: 40%;
-    transform: rotate(-7deg);
-    z-index: 3;
-    max-width: 280px;
-  }
-    
-  /* 9. Ниже среднего, самый правый */
-  .review9 {
-    top: 50%;
-    left: 65%;
-    transform: rotate(8deg);
-    z-index: 5;
-    max-width: 280px;
-  }
-  
-  /* 10. Нижний левый */
-  .review10 {
-    top: 82%;
-    left: 20%;
-    transform: rotate(-3deg);
-    z-index: 2;
-    max-width: 290px;
-  }
-  
-  /* 11. Нижний правый */
-  .review11 {
-    top: 60%;
-    left: 70%;
-    transform: rotate(5deg);
-    z-index: 4;
-    max-width: 270px;
-  }
-  
-  
-  @media (max-width: 768px) {
-    .reviews-container {
-      min-height: 1500px; 
-    }
-    .review-image {
-      max-width: 70%; 
-      left: 50%; 
-      transform: translateX(-50%) rotate(0deg) !important; 
-      margin-bottom: 1rem;
-      position: relative; 
-      display: block; 
-      margin-left: auto;
-      margin-right: auto;
-      top: auto !important; 
-      left: auto !important;
-      z-index: auto !important; 
-    }
-     .review-image:hover {
-       transform: scale(1.03) translateX(-50%) !important; 
-    }
-  
-    .review1, .review2, .review3, .review4,
-    .review5, .review6, .review7, .review8,
-    .review9, .review10, .review11 {
-      position: relative; 
-      top: auto;
-      left: auto;
-      transform: none;
-      z-index: auto;
-      max-width: 70%; 
-      margin-bottom: 1.5rem; 
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .review-image,
-    .review1, .review2, .review3, .review4,
-    .review5, .review6, .review7, .review8,
-    .review9, .review10, .review11 {
-       max-width: 90%; 
-    }
-     .reviews-container {
-       min-height: auto; 
-     }
-  }
+}

@@ -19,8 +19,13 @@ function Header() {
     const [isStudyingMenuOpen, setIsStudyingMenuOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+    const [mobileAboutMenuOpen, setMobileAboutMenuOpen] = useState(false);
+    const [mobileStudyingMenuOpen, setMobileStudyingMenuOpen] = useState(false);
+
     useEffect(() => {
         setIsMobileMenuOpen(false);
+        setMobileAboutMenuOpen(false);
+        setMobileStudyingMenuOpen(false);
     }, [location]);
 
     useEffect(() => {
@@ -34,6 +39,16 @@ function Header() {
             navigate('/signin');
         } catch (error) {
             console.error("Failed to log out", error);
+        }
+    };
+
+    const toggleMobileSubmenu = (menu) => {
+        if (menu === 'about') {
+            setMobileAboutMenuOpen(!mobileAboutMenuOpen);
+            setMobileStudyingMenuOpen(false);
+        } else if (menu === 'studying') {
+            setMobileStudyingMenuOpen(!mobileStudyingMenuOpen);
+            setMobileAboutMenuOpen(false); 
         }
     };
 
@@ -66,30 +81,73 @@ function Header() {
                             <li
                                 onMouseEnter={() => !isMobileMenuOpen && setIsAboutMenuOpen(true)}
                                 onMouseLeave={() => !isMobileMenuOpen && setIsAboutMenuOpen(false)}
-                                onClick={() => isMobileMenuOpen && setIsAboutMenuOpen(!isAboutMenuOpen)}
                             >
-                                <Link to="/about">{t('header.about')}</Link>
-                                {(isAboutMenuOpen || isMobileMenuOpen) && (
-                                    <div className="submenu">
-                                        <Link to="/teachers">{t('header.submenu.teachers')}</Link>
-                                        <Link to="/reviews">{t('header.submenu.reviews')}</Link>
-                                        <Link to="/faq">{t('header.submenu.faq')}</Link>
+                                {isMobileMenuOpen ? (
+                                    <div className="mobile-menu-item">
+                                        <div
+                                            className="mobile-menu-toggle"
+                                            onClick={() => toggleMobileSubmenu('about')}
+                                        >
+                                            <span>{t('header.about')}</span>
+                                            <span className={`arrow ${mobileAboutMenuOpen ? 'open' : ''}`}>▼</span>
+                                        </div>
+                                        {mobileAboutMenuOpen && (
+                                            <div className="mobile-submenu">
+                                                <Link to="/about">{t('header.about')}</Link>
+                                                <Link to="/teachers">{t('header.submenu.teachers')}</Link>
+                                                <Link to="/reviews">{t('header.submenu.reviews')}</Link>
+                                                <Link to="/faq">{t('header.submenu.faq')}</Link>
+                                            </div>
+                                        )}
                                     </div>
+                                ) : (
+                                    <>
+                                        <Link to="/about">{t('header.about')}</Link>
+                                        {isAboutMenuOpen && (
+                                            <div className="submenu">
+                                                <Link to="/teachers">{t('header.submenu.teachers')}</Link>
+                                                <Link to="/reviews">{t('header.submenu.reviews')}</Link>
+                                                <Link to="/faq">{t('header.submenu.faq')}</Link>
+                                            </div>
+                                        )}
+                                    </>
                                 )}
                             </li>
                             <li
                                 onMouseEnter={() => !isMobileMenuOpen && setIsStudyingMenuOpen(true)}
                                 onMouseLeave={() => !isMobileMenuOpen && setIsStudyingMenuOpen(false)}
-                                onClick={() => isMobileMenuOpen && setIsStudyingMenuOpen(!isStudyingMenuOpen)}
                             >
-                                <Link to="/studying">{t('header.courses')}</Link>
-                                {(isStudyingMenuOpen || isMobileMenuOpen) && (
-                                    <div className="submenu">
-                                        <Link to="/studying/en">{t('header.submenu.english')}</Link>
-                                        <Link to="/studying/zh">{t('header.submenu.chinese')}</Link>
-                                        <Link to="/studying/ko">{t('header.submenu.korean')}</Link>
-                                        <Link to="/studying/ja">{t('header.submenu.japanese')}</Link>
+                                {isMobileMenuOpen ? (
+                                    <div className="mobile-menu-item">
+                                        <div
+                                            className="mobile-menu-toggle"
+                                            onClick={() => toggleMobileSubmenu('studying')}
+                                        >
+                                            <span>{t('header.courses')}</span>
+                                            <span className={`arrow ${mobileStudyingMenuOpen ? 'open' : ''}`}>▼</span>
+                                        </div>
+                                        {mobileStudyingMenuOpen && (
+                                            <div className="mobile-submenu">
+                                                <Link to="/studying">{t('header.courses')}</Link>
+                                                <Link to="/studying/en">{t('header.submenu.english')}</Link>
+                                                <Link to="/studying/zh">{t('header.submenu.chinese')}</Link>
+                                                <Link to="/studying/ko">{t('header.submenu.korean')}</Link>
+                                                <Link to="/studying/ja">{t('header.submenu.japanese')}</Link>
+                                            </div>
+                                        )}
                                     </div>
+                                ) : (
+                                    <>
+                                        <Link to="/studying">{t('header.courses')}</Link>
+                                        {isStudyingMenuOpen && (
+                                            <div className="submenu">
+                                                <Link to="/studying/en">{t('header.submenu.english')}</Link>
+                                                <Link to="/studying/zh">{t('header.submenu.chinese')}</Link>
+                                                <Link to="/studying/ko">{t('header.submenu.korean')}</Link>
+                                                <Link to="/studying/ja">{t('header.submenu.japanese')}</Link>
+                                            </div>
+                                        )}
+                                    </>
                                 )}
                             </li>
                             <li><Link to="/blog">{t('header.blog')}</Link></li>

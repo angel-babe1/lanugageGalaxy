@@ -43,6 +43,14 @@
     text-align: center;
 }
 
+/* ▼▼▼ ДОДАЙТЕ ЦЕЙ БЛОК ▼▼▼ */
+.about-intro-text > h4 {
+    margin-top: 2.5rem;
+    margin-bottom: 1.2rem;
+}
+/* ▲▲▲ КІНЕЦЬ БЛОКУ ▲▲▲ */
+
+
 .about-intro-text ul {
     text-align: left;
     display: inline-block;

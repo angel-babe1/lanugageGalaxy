@@ -93,3 +93,36 @@
     margin-right: 0.5em;
     line-height: 1.6
 }
+
+@media (max-width: 768px) {
+
+    .course-section,
+    .layout-image-right {
+        flex-direction: column;
+        padding: 0;
+        gap: 1.5rem;
+    }
+
+    .course-info-container,
+    .course-image-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .course-info-container {
+        order: 2;
+        text-align: center;
+    }
+
+    .course-image-container {
+        order: 1;
+        max-width: 350px;
+    }
+
+    .course-features {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+}

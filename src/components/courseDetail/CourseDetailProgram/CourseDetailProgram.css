@@ -18,3 +18,9 @@
 .section-divider-top {
     margin-bottom: 2rem;
 }
+
+@media (max-width: 768px) {
+    .accordion-container {
+        padding: 0;
+    }
+}

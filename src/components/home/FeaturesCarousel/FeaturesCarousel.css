@@ -6,7 +6,7 @@
 
 .carousel-title {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: #3B3663;
   font-family: 'Cursive', sans-serif;
   margin-bottom: 2rem;
@@ -14,27 +14,24 @@
 
 .carousel {
   position: relative;
-  margin-bottom: 1rem;
-  padding: 0 50px;
+  padding: 0 45px; /* Загальний відступ для стрілок */
 }
 
 .featuresCarousel-window {
   overflow: hidden;
-  width: 100%; 
-  margin: 0 auto;
+  width: 100%;
 }
 
 .carousel-track {
   display: flex;
-  gap: 1rem;
   transition: transform 0.5s ease-in-out; 
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
 }
 
+/* --- Ось головна зміна! --- */
 .carousel-slide {
-  flex: 0 0 calc((100% / 3) - (2rem / 3)); 
+  flex: 0 0 calc(100% / var(--items-to-show));
   box-sizing: border-box;
+  padding: 0 0.5rem; /* Відступи між картками */
 }
 
 .featuresCarousel-arrow {
@@ -56,21 +53,21 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.featuresCarousel-arrow:hover {
-  background-color: rgba(255, 255, 255, 0.9);
+.featuresCarousel-arrow:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 1);
 }
 
 .featuresCarousel-arrow:disabled {
-  opacity: 0.5;
+  opacity: 0.3;
   cursor: default;
 }
 
 .arrow-left {
-  left: 0px;
+  left: 0;
 }
 
 .arrow-right {
-  right: 0px;
+  right: 0;
 }
 
 .featuresCarousel-pagination {
@@ -92,46 +89,17 @@
   transition: background-color 0.3s ease;
 }
 
-.featuresCarousel-dot:hover:not(:disabled) { 
-  background-color: #3B3663; 
+.featuresCarousel-dot:hover { 
+  background-color: #A9A9A9; 
 }
 
 .featuresCarousel-dot.active {
   background-color: #3B3663;
 }
 
-.featuresCarousel-dot:disabled {
-  background-color: #e0e0e0; 
-  cursor: default;
-}
-
-
-@media (max-width: 992px) {
-  .carousel-slide {
-     flex: 0 0 calc((100% / 2) - (1rem / 2));
-  }
-}
-
-
-@media (max-width: 600px) {
- .carousel {
-    padding: 0 40px; 
-  }
-   .arrow-left {
-    left: -5px;
-  }
-  .arrow-right {
-    right: -5px;
-  }
-  .carousel-slide {
-     flex: 0 0 100%;
-  }
-   .carousel-track {
-     gap: 0; 
-     padding-left: 0;
-     padding-right: 0;
-   }
-   .carousel-title {
-    font-size: 2rem;
+/* Медіа-запит для заголовка */
+@media (min-width: 768px) {
+  .carousel-title {
+    font-size: 2.5rem;
   }
 }
