@@ -48,7 +48,7 @@ function Header() {
             setMobileStudyingMenuOpen(false);
         } else if (menu === 'studying') {
             setMobileStudyingMenuOpen(!mobileStudyingMenuOpen);
-            setMobileAboutMenuOpen(false); 
+            setMobileAboutMenuOpen(false);
         }
     };
 
